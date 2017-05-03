@@ -1,0 +1,7 @@
+## Interface: 70200
+## Author: pas06@curseforge
+## Version: 7.2
+## Title: UnitInCombat
+## Notes: Default UI Combat Display, display whether the unit is in combat or not.
+
+UnitInCombat.lua
