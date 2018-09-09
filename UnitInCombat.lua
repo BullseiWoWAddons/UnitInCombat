@@ -48,7 +48,7 @@ UnitInCombat.BlizStyle = { --adapt the RestIcon and PlayerAttackIcon of the play
 UnitInCombat.EnabledZones = { 
 	enabled 			= false, -- if false the addon doesn't show the icon based on zone, set to true if the addon should show icons based on below zones
 	arena				= true, --means when in an arena
-	pvp					= true, --means when in an battlegrund
+	pvp				= true, --means when in an battlegrund
 	party 				= true,	--means when in a 5-man instance
 	raid 				= true, --means when in an raid instance
 	none 				= true, --means outside an instance
@@ -57,26 +57,26 @@ UnitInCombat.EnabledZones = {
 UnitInCombat.enabledfor = { --set to true if it should show for the following frames
 	TargetFrame			= true,
 	FocusFrame			= true,
-	TargetFrameToT   	= false,
-	PartyMemberFrame 	= true,
-	ArenaEnemyFrame		= true,
-	CompactRaidFrame	= true,
+	TargetFrameToT   		= false,
+	PartyMemberFrame 		= true,
+	ArenaEnemyFrame			= true,
+	CompactRaidFrame		= true,
 	NamePlate 			= true,
 }
 
 UnitInCombat.anchors_at = {		-- anchored with the left side of the icon on the right side of the TargetFrame
 	TargetFrame			= { "LEFT", "RIGHT", 0, 0 },
 	FocusFrame			= { "LEFT", "RIGHT", 0, 0 },
-	TargetFrameToT		= { "LEFT", "RIGHT", 15, 0 },
-	PartyMemberFrame	= { "LEFT", "RIGHT", 15, 0 },
-	ArenaEnemyFrame 	= { "LEFT", "RIGHT", 15, 0},
-	CompactRaidFrame	= { "LEFT", "RIGHT", 15, 0},
+	TargetFrameToT			= { "LEFT", "RIGHT", 15, 0 },
+	PartyMemberFrame		= { "LEFT", "RIGHT", 15, 0 },
+	ArenaEnemyFrame 		= { "LEFT", "RIGHT", 15, 0},
+	CompactRaidFrame		= { "LEFT", "RIGHT", 15, 0},
 	NamePlate 			= { "LEFT", "RIGHT", 15, 0},
 }
 
 UnitInCombat.framecounts = { --frames that are always existing right after logging into the game doing nothing. For Example TargetFrame exists even tho you never targeted something.
 	TargetFrame 		= false, -- there is only one TargetFrame
-	FocusFrame			= false,
+	FocusFrame		= false,
 	TargetFrameToT 		= false,
 	PartyMemberFrame 	= 4, --there are four PartyMemberFrames called PartyMemberFrameX, where X is a number from 1 to 4
 	ArenaEnemyFrame		= 4, --there are four ArenaEnemyFrames called ArenaEnemyFrameX, where X is a number from 1 to 4
@@ -118,27 +118,27 @@ end
 function UnitInCombat.ToggleFrameOnUnitUpdate(frame, unit)
 
 	if UnitAffectingCombat(unit) then
-		if frame.UnitInCombat["Combat"] and not frame.UnitInCombat["Combat"]:IsVisible() then
+		if frame.UnitInCombat["Combat"] and not frame.UnitInCombat["Combat"]:IsShown() then
 			frame.UnitInCombat["Combat"]:Show()
 		end
-		if frame.UnitInCombat["OutOfCombat"] and frame.UnitInCombat["OutOfCombat"]:IsVisible() then
+		if frame.UnitInCombat["OutOfCombat"] and frame.UnitInCombat["OutOfCombat"]:IsShown() then
 			frame.UnitInCombat["OutOfCombat"]:Hide()
 		end
 	else
-		if frame.UnitInCombat["Combat"] and frame.UnitInCombat["Combat"]:IsVisible() then
+		if frame.UnitInCombat["Combat"] and frame.UnitInCombat["Combat"]:IsShown() then
 			frame.UnitInCombat["Combat"]:Hide()
 		end
-		if frame.UnitInCombat["OutOfCombat"] and not frame.UnitInCombat["OutOfCombat"]:IsVisible() then
+		if frame.UnitInCombat["OutOfCombat"] and not frame.UnitInCombat["OutOfCombat"]:IsShown() then
 			frame.UnitInCombat["OutOfCombat"]:Show()
 		end
 	end
 end
 
 function UnitInCombat.HideFrame(frame)
-	if frame.UnitInCombat["Combat"] and frame.UnitInCombat["Combat"]:IsVisible() then
+	if frame.UnitInCombat["Combat"] and frame.UnitInCombat["Combat"]:IsShown() then
 		frame.UnitInCombat["Combat"]:Hide()
 	end
-	if frame.UnitInCombat["OutOfCombat"] and frame.UnitInCombat["OutOfCombat"]:IsVisible() then
+	if frame.UnitInCombat["OutOfCombat"] and frame.UnitInCombat["OutOfCombat"]:IsShown() then
 		frame.UnitInCombat["OutOfCombat"]:Hide()
 	end	
 end
@@ -177,6 +177,7 @@ end
 function UnitInCombat.handlerFrame.NAME_PLATE_UNIT_REMOVED(unitID)
 	local nameplate = C_NamePlate.GetNamePlateForUnit(unitID)
 	UnitInCombat.VisibleFrames[nameplate:GetName()] = nil
+	UnitInCombat.HideFrame(nameplate)
 end	
 
 function UnitInCombat.handlerFrame.PLAYER_ENTERING_WORLD()
@@ -191,7 +192,7 @@ end
 local vergangenezeit = 0
 UnitInCombat.handlerFrame:SetScript("OnUpdate", function (self, elapsed)
 	vergangenezeit = vergangenezeit + elapsed
-	if (vergangenezeit > 0.05) then -- alle 0.05 Sekunden ausf¸hren,
+	if (vergangenezeit > 0.05) then -- alle 0.05 Sekunden ausf√ºhren,
 		for frame, unitID in pairs(UnitInCombat.VisibleFrames) do
 			UnitInCombat.ToggleFrameOnUnitUpdate(_G[frame], unitID)
 		end
