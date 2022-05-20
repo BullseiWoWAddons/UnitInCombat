@@ -5,7 +5,7 @@ local AddonName, Data = ...
 local L = Data.L
 local LSM = LibStub("LibSharedMedia-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
-local CurrentZone
+local LibChangelog = LibStub("LibChangelog")
 
 
 
