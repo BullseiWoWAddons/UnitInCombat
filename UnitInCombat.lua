@@ -190,6 +190,7 @@ function UnitInCombat.ToggleFrameOnUnitUpdate(frame, unit)
 end
 
 function UnitInCombat.HideFrame(frame)
+	if not frame.UnitInCombat then return end
 	if frame.UnitInCombat["Combat"] and frame.UnitInCombat["Combat"]:IsShown() then
 		frame.UnitInCombat["Combat"]:Hide()
 	end
@@ -220,18 +221,6 @@ function UnitInCombat.OnHide(self)
 	end
 end
 	
-function UnitInCombat.NAME_PLATE_UNIT_ADDED(unitID)
-	local nameplate = C_NamePlate.GetNamePlateForUnit(unitID)--returns table
-	local nameplatename = nameplate:GetName()
-	UnitInCombat.VisibleFrames[nameplatename] = unitID
-	UnitInCombat.CreateIconFrameFor(nameplate, "NamePlate")
-end
-
-function UnitInCombat.NAME_PLATE_UNIT_REMOVED(unitID)
-	local nameplate = C_NamePlate.GetNamePlateForUnit(unitID)
-	UnitInCombat.VisibleFrames[nameplate:GetName()] = nil
-	UnitInCombat.HideFrame(nameplate)
-end	
 
 
 
