@@ -225,7 +225,7 @@ function UnitInCombat.OnHide(self)
 end
 	
 
-function BattleGroundEnemies:ProfileChanged()
+function UnitInCombat:ProfileChanged()
 	print("profile changed")
 	self:SetupOptions()
 end
