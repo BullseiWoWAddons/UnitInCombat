@@ -46,10 +46,10 @@ end
 function UnitInCombat:ApplyAllSettings()
 	for moduleName, moduleFrame in pairs(self.Modules) do
 		if moduleFrame.iconFrames then
-			for type, typeframe in pairs(moduleFrame.iconFrames) do'
+			for type, typeframe in pairs(moduleFrame.iconFrames) do
 				local settings = self.db.profile[moduleName][type]
 				typeframe:SetPoint(settings.point, typeframe:GetParent(), settings.relativePoint, settings.ofsx, settings.ofsy)
-				
+
 			end
 		end
 	end
