@@ -253,7 +253,6 @@ function UnitInCombat:SetupOptions()
 	--add profile tab to the options 
 	self.options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
 	self.options.args.profiles.order = -1
-	self.options.args.profiles.disabled = InCombatLockdown
 end
 
 SLASH_UnitInCombat1, SLASH_UnitInCombat2 = "/UnitInCombat", "/uic"

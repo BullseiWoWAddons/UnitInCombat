@@ -12,6 +12,9 @@ local CurrentZone
 local UnitInCombat = CreateFrame("Frame", "UnitInCombat")
 UnitInCombat:RegisterEvent("PLAYER_ENTERING_WORLD")
 UnitInCombat:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+UnitInCombat:RegisterEvent("PLAYER_LOGIN")
+
+
 
 function UnitInCombat:NewModule(moduleName, defaultSettings, options)
 	if self.Modules[moduleName] then return error("module "..moduleName.." is already registered") end
