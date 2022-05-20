@@ -174,7 +174,7 @@ local function AddModuleSettings(location)
 					},
 					scale = {
 						type = "range",
-						name = L.Size,
+						name = "Size",
 						min = 0,
 						max = 80,
 						step = 1,
@@ -221,24 +221,10 @@ function UnitInCombat:SetupOptions()
 			return setOption(location, option, ...)
 		end,
 		args = {		
-			GeneralSettings = {
-				type = "group",
-				name = L.GeneralSettings,
-				desc = L.GeneralSettings_Desc,
-				order = 3,
-				args = {
-					Locked = {
-						type = "toggle",
-						name = L.Locked,
-						desc = L.Locked_Desc,
-						order = 1
-					}
-				}
-			},
 			ModuleSettings = {
 				type = "group",
-				name = L.GeneralSettings,
-				desc = L.GeneralSettings_Desc,
+				name = "GeneralSettings,
+				desc = "GeneralSettings_Desc",
 				order = 3,
 				args = AddModuleSettings(location)
 			}
