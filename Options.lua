@@ -691,14 +691,14 @@ local function AddModuleSettings(location)
 						width = "normal",
 						values = Data.FramePoints,
 						order = 1
-					}
+					},
 					relativePoint = {
 						type = "select",
 						name = "Point",
 						width = "normal",
 						values = Data.FramePoints,
 						order = 2
-					}
+					},
 					ofsx = {
 						type = "range",
 						name = "offset x",
@@ -706,7 +706,7 @@ local function AddModuleSettings(location)
 						max = 100,
 						step = 1,
 						order = 3
-					}
+					},
 					ofsy = {
 						type = "range",
 						name = "offset y",
@@ -714,8 +714,7 @@ local function AddModuleSettings(location)
 						max = 100,
 						step = 1,
 						order = 4
-					}
-					
+					},
 					scale = {
 						type = "range",
 						name = L.Size,
@@ -725,7 +724,7 @@ local function AddModuleSettings(location)
 						order = 5
 					},
 				}
-			}
+			},
 			ZoneSettings = {
 				type = "group",
 				name = "Zone Settings",
@@ -745,9 +744,6 @@ local function AddModuleSettings(location)
 					order = 4
 				}
 			}
-
-			
-			
 		}
 		i = i + 1
 	end
