@@ -52,7 +52,7 @@ end
 
 UnitInCombat:SetScript("OnEvent", function(self, event, ...)
 	print("")
-		self[event](...)		
+		self[event](self, ...)		
 end)
 UnitInCombat.VisibleFrames = {} --key = name of visible frame, value = unitID of that frame
 
