@@ -19,3 +19,11 @@ Data.FramePoints = {
 	"BOTTOM",
 	"BOTTOMRIGHT"
 }
+
+Data.Zones = { 	-- if false the addon doesn't show the icon based on zone, set to true if the addon should show icons based on below zones
+	arena,	--means when in an arena
+	pvp,	--means when in an battlegrund
+	party,	--means when in a 5-man instance
+	raid,	--means when in an raid instance
+	none,	--means outside an instance
+}

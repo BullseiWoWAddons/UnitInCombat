@@ -671,47 +671,83 @@ local function AddModuleSettings(location)
 				return setOption(location, option, ...)
 			end,
 			disabled = function() return location.UseClique end,
-			args = {
-				point = {
+			
+
+			PositionAndScale  = {
+				type = "group",
+				name = "position and scale",
+				order = i,
+				get =  function(option)
+					return getOption(location, option)
+				end,
+				set = function(option, ...) 
+					return setOption(location, option, ...)
+				end,
+				disabled = function() return location.UseClique end,
+				args = {
+					point = {
+						type = "select",
+						name = "Point",
+						width = "normal",
+						values = Data.FramePoints,
+						order = 1
+					}
+					relativePoint = {
+						type = "select",
+						name = "Point",
+						width = "normal",
+						values = Data.FramePoints,
+						order = 2
+					}
+					ofsx = {
+						type = "range",
+						name = "offset x",
+						min = -100,
+						max = 100,
+						step = 1,
+						order = 3
+					}
+					ofsy = {
+						type = "range",
+						name = "offset y",
+						min = -100,
+						max = 100,
+						step = 1,
+						order = 4
+					}
+					
+					scale = {
+						type = "range",
+						name = L.Size,
+						min = 0,
+						max = 80,
+						step = 1,
+						order = 5
+					},
+				}
+			}
+			ZoneSettings = {
+				type = "group",
+				name = "Zone Settings",
+				order = i,
+				get =  function(option)
+					return getOption(location, option)
+				end,
+				set = function(option, ...) 
+					return setOption(location, option, ...)
+				end,
+				disabled = function() return location.UseClique end,
+				args = {
 					type = "select",
-					name = "Point",
+					name = "Enable in following zones",
 					width = "normal",
-					values = Data.FramePoints,
-					order = 1
-				}
-				relativePoint = {
-					type = "select",
-					name = "Point",
-					width = "normal",
-					values = Data.FramePoints,
-					order = 2
-				}
-				ofsx = {
-					type = "range",
-					name = "offset x",
-					min = -100,
-					max = 100,
-					step = 1,
-					order = 3
-				}
-				ofsy = {
-					type = "range",
-					name = "offset y",
-					min = -100,
-					max = 100,
-					step = 1,
+					values = Data.Zones,
 					order = 4
 				}
-				
-				scale = {
-					type = "range",
-					name = L.Size,
-					min = 0,
-					max = 80,
-					step = 1,
-					order = 5
-				},
 			}
+
+			
+			
 		}
 		i = i + 1
 	end
