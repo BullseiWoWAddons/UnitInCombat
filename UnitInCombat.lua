@@ -225,7 +225,10 @@ function UnitInCombat.OnHide(self)
 end
 	
 
-
+function BattleGroundEnemies:ProfileChanged()
+	print("profile changed")
+	self:SetupOptions()
+end
 
 function UnitInCombat:PLAYER_LOGIN()	
 	self.db = LibStub("AceDB-3.0"):New("UntiInCombatDB", Data.defaultSettings, true)
