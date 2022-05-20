@@ -17,7 +17,7 @@ function nameplates.NAME_PLATE_UNIT_ADDED(unitID)
 	local nameplate = C_NamePlate.GetNamePlateForUnit(unitID)--returns table
 	local nameplatename = nameplate:GetName()
 	UnitInCombat.VisibleFrames[nameplatename] = unitID
-	UnitInCombat.CreateIconFrameFor(nameplate, "NamePlate")
+	UnitInCombat.CreateIconFrameFor(nameplate, nameplates)
 end
 
 function nameplates.NAME_PLATE_UNIT_REMOVED(unitID)
