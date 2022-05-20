@@ -1,7 +1,15 @@
-## Interface: 70200
-## Author: pas06@curseforge
-## Version: 7.2.1
+## Interface: 90200
+## Interface-Retail: 90200
+## Interface-BCC: 20503
+## Interface-Classic: 11402
+## Author: Bullsei
+## Version: @project-version@
 ## Title: UnitInCombat
+## SavedVariables: UnitInCombatDB
+## OptionalDeps: Ace3, LibStub, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets
 ## Notes: Default UI Combat Display, display whether the unit is in combat or not.
 
 UnitInCombat.lua
+Defaults.lua
+Changelog.lua
+Options.lua
