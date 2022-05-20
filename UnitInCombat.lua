@@ -10,7 +10,8 @@ local CurrentZone
 
 
 local UnitInCombat = CreateFrame("Frame", "UnitInCombat")
-
+UnitInCombat:RegisterEvent("PLAYER_ENTERING_WORLD")
+UnitInCombat:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 
 function UnitInCombat:NewModule(moduleName, defaultSettings, options)
 	if self.Modules[moduleName] then return error("module "..moduleName.." is already registered") end
@@ -49,9 +50,8 @@ end
 
 
 
-UnitInCombat:RegisterEvent("NAME_PLATE_UNIT_ADDED")
-UnitInCombat:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
 UnitInCombat:SetScript("OnEvent", function(self, event, ...)
+	print("")
 		self[event](...)		
 end)
 UnitInCombat.VisibleFrames = {} --key = name of visible frame, value = unitID of that frame
@@ -270,12 +270,8 @@ local vergangenezeit = 0
 
 
 
-if UnitInCombat.enabledfor.NamePlate then
-	UnitInCombat:RegisterEvent("NAME_PLATE_UNIT_ADDED")
-	UnitInCombat:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
-end
 
-if UnitInCombat.EnabledZones.enabled then
-	UnitInCombat:RegisterEvent("PLAYER_ENTERING_WORLD")
-	UnitInCombat:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-end
+
+
+
+
