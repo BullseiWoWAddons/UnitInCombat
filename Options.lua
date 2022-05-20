@@ -223,7 +223,7 @@ function UnitInCombat:SetupOptions()
 		args = {		
 			ModuleSettings = {
 				type = "group",
-				name = "GeneralSettings,
+				name = "GeneralSettings",
 				desc = "GeneralSettings_Desc",
 				order = 3,
 				args = AddModuleSettings(location)
