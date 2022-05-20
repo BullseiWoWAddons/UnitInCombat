@@ -12,5 +12,5 @@
 UnitInCombat.lua
 Defaults.lua
 Changelog.lua
-Options.lua
 Static.lua
+Options.lua
