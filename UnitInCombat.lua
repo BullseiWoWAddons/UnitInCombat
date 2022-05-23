@@ -14,15 +14,21 @@ UnitInCombat:RegisterEvent("PLAYER_ENTERING_WORLD")
 UnitInCombat:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 UnitInCombat:RegisterEvent("PLAYER_LOGIN")
 
+UnitInCombat.Modules = {}
 
 
-function UnitInCombat:NewModule(moduleName, defaultSettings, options)
+function UnitInCombat:NewModule(moduleName, order, defaultSettings, options)
 	if self.Modules[moduleName] then return error("module "..moduleName.." is already registered") end
 	local moduleFrame = CreateFrame("Frame", nil, UIParent)
 	moduleFrame.moduleName = moduleName
-	moduleFrame.defaultSettings = defaultSettings
+	moduleFrame.defaultSettings = defaultSettings or {}
 	moduleFrame.options = options
 	moduleFrame.eventsTable = eventsTable
+	moduleFrame.order = order
+
+
+
+	Data.defaultSettings.profile[moduleName] = {EnabledZones = {}}
 
 	moduleFrame:SetScript("OnEvent", function(self, event, ...)
 		BattleGroundEnemies:Debug("BattleGroundEnemies module event", moduleName, event, ...)
@@ -32,20 +38,34 @@ function UnitInCombat:NewModule(moduleName, defaultSettings, options)
 		BattleGroundEnemies:Debug("BattleGroundEnemies module debug", moduleName, ...)
 	end
 
-	Mixin(frame, frameFunctions)
+	if frameFunctions then Mixin(frame, frameFunctions) end
+	
 	moduleFrame.MainFrame = self
 
 	self.Modules[moduleName] = moduleFrame
 	return moduleFrame
 end
 
+
+function UnitInCombat:SetPositionAndZize(iconframe, moduleConfig)
+	if config.PositionSetting == "TOP" then
+		iconframe:SetPoint("BOTTOM", iconframe:GetParent(), "TOP", config.ofsx, config.ofsy)
+	elseif config.PositionSetting == "LEFT" then
+		iconframe:SetPoint("RIGHT", iconframe:GetParent(), "LEFT", config.ofsx, config.ofsy)
+	elseif config.PositionSetting == "RIGHT" then
+		iconframe:SetPoint("LEFT", iconframe:GetParent(), "RIGHT", config.ofsx, config.ofsy)
+	elseif coinfig.PositionSetting == "BOTTOM" then 
+		iconframe:SetPoint("TOP", iconframe:GetParent(), "BOTTOM", config.ofsx, config.ofsy)
+	end
+	iconframe:SetSize(config.Width, config.Height)
+end
+
 function UnitInCombat:ApplyAllSettings()
 	for moduleName, moduleFrame in pairs(self.Modules) do
 		if moduleFrame.iconFrames then
 			for type, typeframe in pairs(moduleFrame.iconFrames) do
-				local settings = self.db.profile[moduleName][type]
-				typeframe:SetPoint(settings.point, typeframe:GetParent(), settings.relativePoint, settings.ofsx, settings.ofsy)
-
+				local moduleConfig = self.db.profile[moduleName][type]
+				self:SetPositionAndZize(iconframe, moduleConfig)
 			end
 		end
 	end
@@ -153,7 +173,6 @@ function UnitInCombat:CreateIconFrameFor(moduleFrame, parentFrame)
 
 				iconframe:SetWidth(iconWidth)
 				iconframe:SetHeight(iconHeight)
-				iconframe:SetPoint(UnitInCombat.anchors_at[anchor][1], frame, UnitInCombat.anchors_at[anchor][2], UnitInCombat.anchors_at[anchor][3], UnitInCombat.anchors_at[anchor][4] )
 				iconframe:Hide()
 				
 				iconframe.texture = iconframe:CreateTexture(nil, "BACKGROUND")
@@ -168,9 +187,15 @@ function UnitInCombat:CreateIconFrameFor(moduleFrame, parentFrame)
 				if not moduleFrame.iconFrames then moduleFrame.iconFrames = {} end
 				moduleFrame.iconFrames[parentFrame] = {}
 				moduleFrame.iconFrames[parentFrame][type] = iconframe
+
+				local moduleConfig = self.db.profile[moduleFrame.moduleName][type]
+
+				moduleFrame.SetPositionAndZize(iconframe, moduleConfig)
+				return iconframe
 			end
 		end
 	end
+	 
 end
 
 function UnitInCombat.ToggleFrameOnUnitUpdate(frame, unit)

@@ -17,7 +17,6 @@ local function copy(obj)
 	for k, v in pairs(obj) do res[copy(k)] = copy(v) end
 	return res
 end
-						
 
 local function addStaticPopupBGTypeConfigImport(playerType, oppositePlayerType, BGSize)
 	StaticPopupDialogs["CONFIRM_OVERRITE_"..AddonName..playerType..BGSize] = {
@@ -111,16 +110,20 @@ end
 
 
 
-local function AddModuleSettings(location) 
+function UnitInCombat:AddModuleSettings() 
 	local i = 1
 	local temp = {}
-	for moduleName, optionsTable in pairs(self.modules) do
-		location = location[moduleName]
+	for moduleName, moduleFrame in pairs(self.Modules) do
+	
+
+		local location = self.db.profile[moduleName]
+		print("modulename", moduleName)
+		print("location", location)
 		
 		temp[moduleName]  = {
 			type = "group",
 			name = moduleName,
-			order = i,
+			order = moduleFrame.order,
 			get =  function(option)
 				return getOption(location, option)
 			end,
@@ -128,81 +131,71 @@ local function AddModuleSettings(location)
 				return setOption(location, option, ...)
 			end,
 			disabled = function() return location.UseClique end,
-			
-
-			PositionAndScale  = {
-				type = "group",
-				name = "position and scale",
-				order = i,
-				get =  function(option)
-					return getOption(location, option)
-				end,
-				set = function(option, ...) 
-					return setOption(location, option, ...)
-				end,
-				disabled = function() return location.UseClique end,
-				args = {
-					point = {
-						type = "select",
-						name = "Point",
-						width = "normal",
-						values = Data.FramePoints,
-						order = 1
-					},
-					relativePoint = {
-						type = "select",
-						name = "Point",
-						width = "normal",
-						values = Data.FramePoints,
-						order = 2
-					},
-					ofsx = {
-						type = "range",
-						name = "offset x",
-						min = -100,
-						max = 100,
-						step = 1,
-						order = 3
-					},
-					ofsy = {
-						type = "range",
-						name = "offset y",
-						min = -100,
-						max = 100,
-						step = 1,
-						order = 4
-					},
-					scale = {
-						type = "range",
-						name = "Size",
-						min = 0,
-						max = 80,
-						step = 1,
-						order = 5
-					},
-				}
-			},
-			ZoneSettings = {
-				type = "group",
-				name = "Zone Settings",
-				order = i,
-				get =  function(option)
-					return getOption(location, option)
-				end,
-				set = function(option, ...) 
-					return setOption(location, option, ...)
-				end,
-				disabled = function() return location.UseClique end,
-				args = {
-					type = "select",
+			args = {
+				Enabled = {
+					type = "toggle",
+					name = "Enabled",
+					width = "normal",
+					order = 1
+				},
+				EnableinZone = {
+					type = "multiselect",
 					name = "Enable in following zones",
 					width = "normal",
 					values = Data.Zones,
-					order = 4
+					order = 2,
+					disabled = function() return location.Enabled end,
+					get = function(option, key)
+						return location.EnabledZones[key]
+					end,
+					set = function(option, key, state) 
+						location.EnabledZones[key] = state
+						BattleGroundEnemies:ApplyAllSettings()
+					end
+				},
+				PositionAndScale  = {
+					type = "group",
+					name = "position and scale",
+					order = 1,
+					disabled = function() return location.Enabled end,
+					order = 3,
+					inline = true,
+					args = {
+						PositionSetting =  {
+							type = "select",
+							name = "Point",
+							width = "normal",
+							values = {TOP = "TOP", LEFT = "LEFT", RIGHT = "RIGHT", BOTTOM = "BOTTOM"},
+							order = 1
+						},
+						scale = {
+							type = "range",
+							name = "Scale",
+							min = 0,
+							max = 80,
+							step = 1,
+							order = 2
+						},
+						ofsx = {
+							type = "range",
+							name = "Offset x",
+							min = -100,
+							max = 100,
+							step = 1,
+							order = 5
+						},
+						ofsy = {
+							type = "range",
+							name = "Offset y",
+							min = -100,
+							max = 100,
+							step = 1,
+							order = 6
+						}
+					}
 				}
 			}
 		}
-		i = i + 1
 	end
 	return temp
 end
@@ -223,10 +216,10 @@ function UnitInCombat:SetupOptions()
 		args = {		
 			ModuleSettings = {
 				type = "group",
-				name = "GeneralSettings",
-				desc = "GeneralSettings_Desc",
+				name = "Settings",
+				desc = "Settings_Desc",
 				order = 3,
-				args = AddModuleSettings(location)
+				args = self:AddModuleSettings(location)
 			}
 		}
 	}

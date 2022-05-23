@@ -13,4 +13,12 @@ UnitInCombat.lua
 Defaults.lua
 Changelog.lua
 Static.lua
+CompactUnitFrame.lua
+Target.lua
+TargetOfTarget.lua
+Focus.lua
+ArenaEnemyFrame.lua
+Nameplates.lua
+PartyMemberFrame.lua
 Options.lua
+

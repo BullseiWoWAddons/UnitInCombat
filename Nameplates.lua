@@ -1,6 +1,6 @@
-local nameplates = UnitInCombat:NewModule(moduleName, defaultSettings, options)
+local nameplates = UnitInCombat:NewModule("nameplates", 5, defaultSettings, options)
 
-nameplates.Enable = function(self)
+function nameplates:Enable(self)
 	nameplates:RegisterEvent("NAME_PLATE_UNIT_ADDED")
 	nameplates:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
 	nameplates:SetScript("OnEvent", function(self, event, ...) 
@@ -8,24 +8,19 @@ nameplates.Enable = function(self)
 	end)
 end
 
-nameplates.Disable = function(self)
+function nameplates:Disable(self)
 	nameplates:UnregisterAllEvents()
 end
 
 
-function nameplates.NAME_PLATE_UNIT_ADDED(unitID)
+function nameplates:NAME_PLATE_UNIT_ADDED(unitID)
 	local nameplate = C_NamePlate.GetNamePlateForUnit(unitID)--returns table
 	local nameplatename = nameplate:GetName()
 	UnitInCombat.VisibleFrames[nameplatename] = unitID
-	UnitInCombat.CreateIconFrameFor(nameplate, nameplates)
+	UnitInCombat.CreateIconFrameFor(self, nameplate)
 end
 
-function nameplates.NAME_PLATE_UNIT_REMOVED(unitID)
+function nameplates:NAME_PLATE_UNIT_REMOVED(unitID)
 	local nameplate = C_NamePlate.GetNamePlateForUnit(unitID)
 	UnitInCombat.VisibleFrames[nameplate:GetName()] = nil
-	UnitInCombat.HideFrame(nameplate)
 end	
-
-function nameplate:RemoveFromFrame()
-
-end
