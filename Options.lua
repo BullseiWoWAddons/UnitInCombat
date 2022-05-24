@@ -18,6 +18,15 @@ local function copy(obj)
 	return res
 end
 
+
+iconTable = {}
+
+GetLooseMacroIcons( iconTable );
+GetLooseMacroItemIcons( iconTable );
+GetMacroIcons( iconTable );
+GetMacroItemIcons( iconTable );
+
+
 local function addStaticPopupBGTypeConfigImport(playerType, oppositePlayerType, BGSize)
 	StaticPopupDialogs["CONFIRM_OVERRITE_"..AddonName..playerType..BGSize] = {
 	  text = L.ConfirmProfileOverride:format(L[playerType]..": "..L["BGSize_"..BGSize], L[oppositePlayerType]..": "..L["BGSize_"..BGSize]),
@@ -213,7 +222,58 @@ function UnitInCombat:SetupOptions()
 		set = function(option, ...)
 			return setOption(location, option, ...)
 		end,
-		args = {		
+		args = {
+			GeneralSettings = {
+				type = "group",
+				name = "General Settings",
+				desc = "Settings_Desc",
+				order = 1,
+				args = {
+					CombatIcon = {
+						type = "input",
+						name = "In Combat Icon",
+						desc = "icon path or file id",
+						get = function() return "" end,
+						set = function(option, value, state)
+							print("option", option)
+							print("value", value)
+
+							print("state", state)
+
+						end,
+						width = 'double',
+						order = 10,
+						icon = "Interface\\Icons\\ABILITY_SAP"
+					},
+					CombatIconFeedback = {
+						name = "|TInterface\\Icons\\ABILITY_SAP:32:32:0:4|t ",
+						type = "description",
+					},
+					Auswahl = {
+						name = "|TInterface\\Icons\\ABILITY_SAP:32:32:0:4|t ",
+						type = "select",
+						values = {
+							first = "|TInterface\\Icons\\ABILITY_SAP:32:32:0:4|t ",
+							second = "|TInterface\\Icons\\ABILITY_DUALWIELD:32:32:0:4|t ",
+						}
+					},
+					OufOfCombatIcon = {
+						type = "input",
+						name = "Out of Combat Icon",
+						desc = "icon path or file id",
+						get = function() return "" end,
+						set = function(option, value, state)
+							print("option", option)
+							print("value", value)
+
+							print("state", state)
+
+						end,
+						width = 'double',
+						order = 10
+					}
+				}
+			},		
 			ModuleSettings = {
 				type = "group",
 				name = "Settings",

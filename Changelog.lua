@@ -11,5 +11,5 @@ Data.changelog = {
 				}
 			}
 		}
-	},
+	}
 }
