@@ -112,45 +112,7 @@ UnitInCombat.BlizStyle = { --adapt the RestIcon and PlayerAttackIcon of the play
 	}
 }
 
-UnitInCombat.EnabledZones = { 
-	enabled 			= false, -- if false the addon doesn't show the icon based on zone, set to true if the addon should show icons based on below zones
-	arena				= true, --means when in an arena
-	pvp					= true, --means when in an battlegrund
-	party 				= true,	--means when in a 5-man instance
-	raid 				= true, --means when in an raid instance
-	none 				= true, --means outside an instance
-}
 
-UnitInCombat.enabledfor = { --set to true if it should show for the following frames
-	TargetFrame			= true,
-	FocusFrame			= true,
-	TargetFrameToT   	= false,
-	PartyMemberFrame 	= true,
-	ArenaEnemyFrame		= true,
-	CompactRaidFrame	= true,
-	NamePlate 			= true,
-}
-
-UnitInCombat.anchors_at = {		-- anchored with the left side of the icon on the right side of the TargetFrame
-	TargetFrame			= { "LEFT", "RIGHT", 0, 0 },
-	FocusFrame			= { "LEFT", "RIGHT", 0, 0 },
-	TargetFrameToT		= { "LEFT", "RIGHT", 15, 0 },
-	PartyMemberFrame	= { "LEFT", "RIGHT", 15, 0 },
-	ArenaEnemyFrame 	= { "LEFT", "RIGHT", 15, 0},
-	CompactRaidFrame	= { "LEFT", "RIGHT", 15, 0},
-	NamePlate 			= { "LEFT", "RIGHT", 15, 0},
-}
-
-UnitInCombat.framecounts = { --frames that are always existing right after logging into the game doing nothing. For Example TargetFrame exists even tho you never targeted something.
-	TargetFrame 		= false, -- there is only one TargetFrame
-	FocusFrame			= false,
-	TargetFrameToT 		= false,
-	PartyMemberFrame 	= 4, --there are four PartyMemberFrames called PartyMemberFrameX, where X is a number from 1 to 4
-	ArenaEnemyFrame		= 4, --there are four ArenaEnemyFrames called ArenaEnemyFrameX, where X is a number from 1 to 4
-	--CompactRaidFrame	= true, --CompactRaidFrameX, where X is a number, is created dynamically
-	--NamePlate 		= true, -created dynamically
-
-}
 
 local hookedFrames = {}
 function UnitInCombat:CreateIconFrameFor(moduleFrame, parentFrame)
