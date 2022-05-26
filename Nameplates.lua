@@ -20,5 +20,5 @@ end
 
 function nameplates:NAME_PLATE_UNIT_ADDED(unitID)
 	local nameplate = C_NamePlate.GetNamePlateForUnit(unitID)--returns table
-	UnitInCombat:CreateiconFrameFor(self, nameplate)
+	UnitInCombat:CreateIconFrameFor(self, nameplate, unitID)
 end

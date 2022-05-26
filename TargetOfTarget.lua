@@ -7,5 +7,5 @@ local defaultSettings = {
 local targetoftarget = UnitInCombat:NewModule("targetoftarget", SHOW_TARGET_OF_TARGET_TEXT, 3, defaultSettings, options)
 
 function targetoftarget:Enable()
-	UnitInCombat:CreateiconFrameFor(self, TargetFrameToT)
+	UnitInCombat:CreateIconFrameFor(self, TargetFrameToT, "targettarget")
 end

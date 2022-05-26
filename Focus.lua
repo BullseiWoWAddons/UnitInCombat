@@ -1,11 +1,11 @@
 local defaultSettings = {
 	Scale = 1,
 	PositionSetting = "RIGHT",
-	Ofsx = 0,
+	Ofsx = -35,
 	Ofsy = 0
 }
 local focus = UnitInCombat:NewModule("focus", FOCUS, 2, defaultSettings, options)
 
 function focus:Enable()
-	UnitInCombat:CreateiconFrameFor(self, FocusFrame)
+	UnitInCombat:CreateIconFrameFor(self, FocusFrame, "focus")
 end

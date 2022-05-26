@@ -23,6 +23,17 @@ local iconselectionframe = CreateFrame("Frame", "TESTNAME", UIParent, "IconSelec
 iconselectionframe:Hide()
 iconselectionframe:SetPoint("CENTER")
 
+
+
+local timer = nil
+local function ApplyAllSettings()
+	if timer then timer:Cancel() end -- use a timer to apply changes after 0.2 second, this prevents the UI from getting laggy when the user uses a slider option
+	timer = CTimerNewTicker(0.2, function() 
+		UnitInCombat:ApplyAllSettings()
+		timer = nil
+	end, 1)
+end
+
 local function getOption(location, option)
 	local value = location[option[#option]]
 
@@ -43,17 +54,9 @@ local function setOption(location, option, ...)
 	end
 
 	location[option[#option]] = value
-	--ApplyAllSettings()
+	ApplyAllSettings()
 end
 
-local timer = nil
-local function ApplyAllSettings()
-	if timer then timer:Cancel() end -- use a timer to apply changes after 0.2 second, this prevents the UI from getting laggy when the user uses a slider option
-	timer = CTimerNewTicker(0.2, function() 
-		UnitInCombat:ApplyAllSettings()
-		timer = nil
-	end, 1)
-end
 
 
 
@@ -104,7 +107,7 @@ function UnitInCombat:AddModuleSettings()
 			args = {
 				Enabled = {
 					type = "toggle",
-					name = "Enabled",
+					name = VIDEO_OPTIONS_ENABLED,
 					width = "normal",
 					order = 1
 				},
@@ -159,12 +162,12 @@ function UnitInCombat:AddModuleSettings()
 							values = {TOP = "TOP", LEFT = "LEFT", RIGHT = "RIGHT", BOTTOM = "BOTTOM"},
 							order = 1
 						},
-						scale = {
+						Scale = {
 							type = "range",
 							name = "Scale",
-							min = 0,
-							max = 80,
-							step = 1,
+							min = 0.1,
+							max = 3,
+							step = 0.05,
 							order = 2
 						},
 						Ofsx = {
@@ -189,7 +192,6 @@ function UnitInCombat:AddModuleSettings()
 					type = "execute",
 					name = "Reset the settings of this section",
 					func = function() 
-						print('running')
 						self.db.profile[moduleName] = copy(self.db.defaults.profile[moduleName])
 
 						UnitInCombat:ProfileChanged()
@@ -274,9 +276,8 @@ function UnitInCombat:SetupOptions()
 								type = "execute",
 								name = "Reset icons to defaults",
 								func = function() 
-									print('running')
 									self.db.profile.GeneralSettings = copy(self.db.defaults.profile.GeneralSettings)
-									
+
 									UnitInCombat:ProfileChanged()
 									AceConfigRegistry:NotifyChange("UnitInCombat");
 								end,
@@ -287,8 +288,8 @@ function UnitInCombat:SetupOptions()
 					},
 					ModuleSettings = {
 						type = "group",
-						name = "frame settings",
-						desc = "frame specific settings",
+						name = "Frame settings",
+						desc = "Frame specific settings",
 						order = 3,
 						args = self:AddModuleSettings(location)
 					}

@@ -1,13 +1,18 @@
 ## Interface: 90200
 ## Interface-Retail: 90200
-## Interface-BCC: 20503
-## Interface-Classic: 11402
+## Interface-BCC: 20504
+## Interface-Classic: 11403
 ## Author: Bullsei
 ## Version: @project-version@
 ## Title: UnitInCombat
 ## SavedVariables: UnitInCombatDB
 ## OptionalDeps: Ace3, LibStub, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets
 ## Notes: Default UI Combat Display, display whether the unit is in combat or not.
+
+#@no-lib-strip@
+embeds.xml
+#@end-no-lib-strip@
+
 
 Iconselector.lua
 IconSelector.xml
@@ -16,6 +21,7 @@ Defaults.lua
 Changelog.lua
 Static.lua
 CompactUnitFrame.lua
+Player.lua
 Target.lua
 TargetOfTarget.lua
 Focus.lua

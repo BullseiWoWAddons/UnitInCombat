@@ -10,7 +10,7 @@ function arenaEnemyFrame:Enable()
 	for i = 1, 5 do
 		local frame = _G["ArenaEnemyFrame"..i]
 		if frame then
-			UnitInCombat:CreateiconFrameFor(self, frame)
+			UnitInCombat:CreateIconFrameFor(self, frame, "arena"..i)
 		end
 	end
 end

@@ -10,7 +10,7 @@ function partyMemberFrame:Enable()
 	for i = 1, 4 do
 		local frame = _G["PartyMemberFrame"..i]
 		if frame then
-			UnitInCombat:CreateiconFrameFor(self , frame)
+			UnitInCombat:CreateIconFrameFor(self , frame, "party"..i)
 		end
 	end
 end

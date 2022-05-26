@@ -5,9 +5,9 @@ Data.changelog = {
 		Version = "9.2.0.0",
 		Sections = {
 			{
-				Header = "Bugfixes:",
+				Header = "Completely Rewrite of the addon:",
 				Entries = {
-					"Fixed a mistake in version string comparison which resulted in spam about a new available version. Thanks coyote_ii@curseforge for the report."
+					"During the last days/week i completely rewrote the addon and added an options menu and added some new features. Check out the options panel by typing /UnitInCombat into the chat. Feedback highly appreciated."
 				}
 			}
 		}

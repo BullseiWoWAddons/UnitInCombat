@@ -4,8 +4,8 @@ local defaultSettings = {
 	Ofsx = 0,
 	Ofsy = 0
 }
-local player = UnitInCombat:NewModule("target", PLAYER, 1, defaultSettings, options)
+local player = UnitInCombat:NewModule("player", PLAYER, 1, defaultSettings, options)
 
 function player:Enable()
-	UnitInCombat:CreateiconFrameFor(self, PlayerFrame)
+	UnitInCombat:CreateIconFrameFor(self, PlayerFrame, "player")
 end
