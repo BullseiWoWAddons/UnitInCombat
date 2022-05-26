@@ -5,7 +5,6 @@ local L = Data.L
 local AceConfig = LibStub("AceConfig-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
-local LSM = LibStub("LibSharedMedia-3.0")
 
 
 local CTimerNewTicker = C_Timer.NewTicker
