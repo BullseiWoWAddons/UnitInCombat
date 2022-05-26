@@ -1,16 +1,16 @@
-local defaultSettings = {}
-local partyMemberFrame = UnitInCombat:NewModule("PartyMembers", 1, defaultSettings, options)
+local defaultSettings = {
+	Scale = 1,
+	PositionSetting = "RIGHT",
+	Ofsx = 0,
+	Ofsy = 0
+}
+local partyMemberFrame = UnitInCombat:NewModule("PartyMembers", PARTY_MEMBERS, 1, defaultSettings, options)
 
 function partyMemberFrame:Enable()
 	for i = 1, 4 do
 		local frame = _G["PartyMemberFrame"..i]
 		if frame then
-			UnitInCombat.CreateIconFrameFor(self , frame)
+			UnitInCombat:CreateiconFrameFor(self , frame)
 		end
 	end
-	
-end
-
-partyMemberFrame.Disable = function(self)
-	-- we can't unhook so we can't do much here
 end

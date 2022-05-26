@@ -98,7 +98,7 @@ globals = {
 	"AuraUtil",
 	"BackdropTemplateMixin",
 	"BasicMessageDialog",
-	"BattleGroundEnemies",
+	"UnitInCombat",
 	"BetterDate",
 	"BNGetFriendIndex",
 	"BNIsSelf",

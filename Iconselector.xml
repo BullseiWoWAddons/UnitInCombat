@@ -26,7 +26,7 @@
 			</Layer>
 		</Layers>
 		<Frames>
-			<Frame parentKey="$parentBorderBox" inherits="SelectionFrameTemplate" frameLevel="50" hidden="false">
+			<Frame parentKey="BorderBox" inherits="SelectionFrameTemplate" frameLevel="50" hidden="false">
 				<Anchors>
 					<Anchor point="TOPLEFT"/>
 					<Anchor point="BOTTOMRIGHT"/>
@@ -41,7 +41,7 @@
 					</Layer>
 				</Layers>
 				<Frames>
-					<EditBox name="$parentEditBox" parentKey="EditBox" letters="16" historyLines="0">
+					<EditBox parentKey="EditBox" letters="16" historyLines="0" autoFocus="false">
 						<Size x="182" y="20"/>
 						<Anchors>
 							<Anchor point="TOPLEFT" x="29" y="-35"/>
@@ -75,7 +75,7 @@
 					</EditBox>
 				</Frames>
 			</Frame>
-			<ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="ListScrollFrameTemplate">
+			<ScrollFrame parentKey="ScrollFrame" inherits="ListScrollFrameTemplate">
 				<Size x="485" y="389"/>
 				<Anchors>
 					<Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT" x="-36" y="-70"/>

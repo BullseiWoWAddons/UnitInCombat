@@ -1,10 +1,11 @@
-local defaultSettings = {}
-local target = UnitInCombat:NewModule("target", 1, defaultSettings, options)
+local defaultSettings = {
+	Scale = 1,
+	PositionSetting = "RIGHT",
+	Ofsx = 0,
+	Ofsy = 0
+}
+local target = UnitInCombat:NewModule("target", TARGET, 1, defaultSettings, options)
 
-function target:Enable(self)
-	UnitInCombat.CreateIconFrameFor(self, PlayerFrame)
-end
-
-target.Disable = function(self)
-	-- we can't unhook so we can't do much here
+function target:Enable()
+	UnitInCombat:CreateiconFrameFor(self, TargetFrame)
 end

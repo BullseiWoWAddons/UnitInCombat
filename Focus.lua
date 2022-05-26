@@ -1,10 +1,11 @@
-local defaultSettings = {}
-local focus = UnitInCombat:NewModule("focus", 2, defaultSettings, options)
+local defaultSettings = {
+	Scale = 1,
+	PositionSetting = "RIGHT",
+	Ofsx = 0,
+	Ofsy = 0
+}
+local focus = UnitInCombat:NewModule("focus", FOCUS, 2, defaultSettings, options)
 
-function focus:Enable(self)
-	UnitInCombat.CreateIconFrameFor(self, FocusFrame)
-end
-
-focus.Disable = function(self)
-	-- we can't unhook so we can't do much here
+function focus:Enable()
+	UnitInCombat:CreateiconFrameFor(self, FocusFrame)
 end

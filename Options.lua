@@ -19,42 +19,31 @@ local function copy(obj)
 end
 
 
-iconTable = {}
-
-GetLooseMacroIcons( iconTable );
-GetLooseMacroItemIcons( iconTable );
-GetMacroIcons( iconTable );
-GetMacroItemIcons( iconTable );
-
-
-local function addStaticPopupBGTypeConfigImport(playerType, oppositePlayerType, BGSize)
-	StaticPopupDialogs["CONFIRM_OVERRITE_"..AddonName..playerType..BGSize] = {
-	  text = L.ConfirmProfileOverride:format(L[playerType]..": "..L["BGSize_"..BGSize], L[oppositePlayerType]..": "..L["BGSize_"..BGSize]),
-	  button1 = YES,
-	  button2 = NO,
-	  OnAccept = function (self) 
-			UnitInCombat.db.profile[playerType][BGSize] = copy(UnitInCombat.db.profile[oppositePlayerType][BGSize])
-			if UnitInCombat.BGSize and UnitInCombat.BGSize == tonumber(BGSize) then UnitInCombat[playerType]:ApplyBGSizeSettings() end
-			AceConfigRegistry:NotifyChange("UnitInCombat")
-	  end,
-	  OnCancel = function (self) end,
-	  OnHide = function (self) self.data = nil; self.selectedIcon = nil; end,
-	  hideOnEscape = 1,
-	  timeout = 30,
-	  exclusive = 1,
-	  whileDead = 1,
-	}
-end
+local iconselectionframe = CreateFrame("Frame", "TESTNAME", UIParent, "IconSelectorFrameTemplate") 
+iconselectionframe:Hide()
+iconselectionframe:SetPoint("CENTER")
 
 local function getOption(location, option)
 	local value = location[option[#option]]
 
 	if type(value) == "table" then
-		--BattleGroundEnemies:Debug("is table")
+		--UnitInCombat:Debug("is table")
 		return unpack(value)
 	else
 		return value
 	end
+end
+
+local function setOption(location, option, ...)
+	local value
+	if option.type == "color" then
+		value = {...}   -- local r, g, b, alpha = ...
+	else
+		value = ...
+	end
+
+	location[option[#option]] = value
+	--ApplyAllSettings()
 end
 
 local timer = nil
@@ -68,31 +57,6 @@ end
 
 
 
-local function setOption(location, option, ...)
-	local value
-	if option.type == "color" then
-		value = {...}   -- local r, g, b, alpha = ...
-	else
-		value = ...
-	end
-
-	location[option[#option]] = value
-	ApplyAllSettings()
-	
-	--BattleGroundEnemies.db.profile[key] = value
-end
-
-
-local function getOption(location, option)
-	local value = location[option[#option]]
-
-	if type(value) == "table" then
-		--UnitInCombat:Debug("is table")
-		return unpack(value)
-	else
-		return value
-	end
-end
 
 
 
@@ -126,12 +90,10 @@ function UnitInCombat:AddModuleSettings()
 	
 
 		local location = self.db.profile[moduleName]
-		print("modulename", moduleName)
-		print("location", location)
 		
 		temp[moduleName]  = {
 			type = "group",
-			name = moduleName,
+			name = moduleFrame.localeModuleName,
 			order = moduleFrame.order,
 			get =  function(option)
 				return getOption(location, option)
@@ -139,7 +101,6 @@ function UnitInCombat:AddModuleSettings()
 			set = function(option, ...) 
 				return setOption(location, option, ...)
 			end,
-			disabled = function() return location.UseClique end,
 			args = {
 				Enabled = {
 					type = "toggle",
@@ -147,27 +108,48 @@ function UnitInCombat:AddModuleSettings()
 					width = "normal",
 					order = 1
 				},
-				EnableinZone = {
+				EnableInZone = {
 					type = "multiselect",
 					name = "Enable in following zones",
 					width = "normal",
 					values = Data.Zones,
 					order = 2,
-					disabled = function() return location.Enabled end,
+					disabled = function() return not location.Enabled end,
 					get = function(option, key)
 						return location.EnabledZones[key]
 					end,
 					set = function(option, key, state) 
 						location.EnabledZones[key] = state
-						BattleGroundEnemies:ApplyAllSettings()
+						UnitInCombat:ApplyAllSettings()
 					end
+				},
+				EnabledFriendliness = {
+					type = "group",
+					name = "Show for allies or enemies",
+					order = 3,
+					disabled = function() return not location.Enabled end,
+					inline = true,
+					args = {
+						ShowOnFriendly = {
+							type = "toggle",
+							name = "Show on friendly units",
+							width = "normal",
+							order = 1
+						},
+						ShowOnHostile = {
+							type = "toggle",
+							name = "Show on hostile units",
+							width = "normal",
+							order = 2
+						}		
+					}
 				},
 				PositionAndScale  = {
 					type = "group",
 					name = "position and scale",
 					order = 1,
-					disabled = function() return location.Enabled end,
-					order = 3,
+					disabled = function() return not location.Enabled end,
+					order = 4,
 					inline = true,
 					args = {
 						PositionSetting =  {
@@ -185,7 +167,7 @@ function UnitInCombat:AddModuleSettings()
 							step = 1,
 							order = 2
 						},
-						ofsx = {
+						Ofsx = {
 							type = "range",
 							name = "Offset x",
 							min = -100,
@@ -193,7 +175,7 @@ function UnitInCombat:AddModuleSettings()
 							step = 1,
 							order = 5
 						},
-						ofsy = {
+						Ofsy = {
 							type = "range",
 							name = "Offset y",
 							min = -100,
@@ -202,6 +184,19 @@ function UnitInCombat:AddModuleSettings()
 							order = 6
 						}
 					}
+				},
+				Reset = {
+					type = "execute",
+					name = "Reset the settings of this section",
+					func = function() 
+						print('running')
+						self.db.profile[moduleName] = copy(self.db.defaults.profile[moduleName])
+
+						UnitInCombat:ProfileChanged()
+						AceConfigRegistry:NotifyChange("UnitInCombat");
+					end,
+					width = "full",
+					order = 5,
 				}
 			}
 		}
@@ -223,64 +218,82 @@ function UnitInCombat:SetupOptions()
 			return setOption(location, option, ...)
 		end,
 		args = {
-			GeneralSettings = {
-				type = "group",
-				name = "General Settings",
-				desc = "Settings_Desc",
-				order = 1,
-				args = {
-					CombatIcon = {
-						type = "input",
-						name = "In Combat Icon",
-						desc = "icon path or file id",
-						get = function() return "" end,
-						set = function(option, value, state)
-							print("option", option)
-							print("value", value)
-
-							print("state", state)
-
-						end,
-						width = 'double',
-						order = 10,
-						icon = "Interface\\Icons\\ABILITY_SAP"
-					},
-					CombatIconFeedback = {
-						name = "|TInterface\\Icons\\ABILITY_SAP:32:32:0:4|t ",
-						type = "description",
-					},
-					Auswahl = {
-						name = "|TInterface\\Icons\\ABILITY_SAP:32:32:0:4|t ",
-						type = "select",
-						values = {
-							first = "|TInterface\\Icons\\ABILITY_SAP:32:32:0:4|t ",
-							second = "|TInterface\\Icons\\ABILITY_DUALWIELD:32:32:0:4|t ",
-						}
-					},
-					OufOfCombatIcon = {
-						type = "input",
-						name = "Out of Combat Icon",
-						desc = "icon path or file id",
-						get = function() return "" end,
-						set = function(option, value, state)
-							print("option", option)
-							print("value", value)
-
-							print("state", state)
-
-						end,
-						width = 'double',
-						order = 10
-					}
-				}
-			},		
-			ModuleSettings = {
+			Settings = {
 				type = "group",
 				name = "Settings",
 				desc = "Settings_Desc",
-				order = 3,
-				args = self:AddModuleSettings(location)
-			}
+				order = 1,
+				args = {
+					GeneralSettings = {
+						type = "group",
+						name = "General Settings",
+						desc = "Settings affecting all frames",
+						get = function(option)
+							return getOption(location.GeneralSettings, option)
+						end,
+						set = function(option, ...)
+							return setOption(location.GeneralSettings, option, ...)
+						end,
+						order = 1,
+						args = {
+							CombatIcon = {
+								type = "execute",
+								name = "combat icon",
+								image = function() return location.GeneralSettings.CombatIcon end,
+								func = function(option) 
+									local optiontable = {} --hold a copy of the option table for the OnOkayButtonPressed otherweise the table will be empty
+									Mixin(optiontable, option)
+									iconselectionframe:Show() 
+									function iconselectionframe:OnOkayButtonPressed(texture) 					
+										setOption(location.GeneralSettings, optiontable, texture)
+		
+										AceConfigRegistry:NotifyChange("UnitInCombat");
+									end
+								end,
+								width = "half",
+								order = 1,
+							},
+							OutOfCombatIcon = {
+								type = "execute",
+								name = "ouf of combat icon",
+								image = function() return location.GeneralSettings.OutOfCombatIcon end,
+								func = function(option) 
+									local optiontable = {} --hold a copy of the option table for the OnOkayButtonPressed otherweise the table will be empty
+									Mixin(optiontable, option)
+									iconselectionframe:Show() 
+									function iconselectionframe:OnOkayButtonPressed(texture) 					
+										setOption(location.GeneralSettings, optiontable, texture)
+		
+										AceConfigRegistry:NotifyChange("UnitInCombat");
+									end
+								end,
+								width = "half",
+								order = 2,
+							},
+							Reset = {
+								type = "execute",
+								name = "Reset icons to defaults",
+								func = function() 
+									print('running')
+									self.db.profile.GeneralSettings = copy(self.db.defaults.profile.GeneralSettings)
+									
+									UnitInCombat:ProfileChanged()
+									AceConfigRegistry:NotifyChange("UnitInCombat");
+								end,
+								width = "full",
+								order = 2,
+							}
+						}
+					},
+					ModuleSettings = {
+						type = "group",
+						name = "frame settings",
+						desc = "frame specific settings",
+						order = 3,
+						args = self:AddModuleSettings(location)
+					}
+				}
+			}		
 		}
 	}
 
