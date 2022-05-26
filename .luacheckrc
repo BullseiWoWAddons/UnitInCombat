@@ -166,7 +166,7 @@ globals = {
 	"GetLocale",
 	"GetMaxPlayerLevel",
 	"GetNumAddOns",
-	"GetNumArenaOpponents"
+	"GetNumArenaOpponents",
 	"GetNumArenaOpponentSpecs",
 	"GetNumBattlefieldScores",
 	"GetNumClasses",
