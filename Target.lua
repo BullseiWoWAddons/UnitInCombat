@@ -4,7 +4,7 @@ local defaultSettings = {
 	Ofsx = -35,
 	Ofsy = 0
 }
-local target = UnitInCombat:NewModule("target", TARGET, 1, defaultSettings, options)
+local target = UnitInCombat:NewModule("target", TARGET, 1, defaultSettings)
 
 function target:Enable()
 	UnitInCombat:CreateIconFrameFor(self, TargetFrame, "target")
