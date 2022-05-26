@@ -225,7 +225,7 @@ globals = {
 	"NO",
 	"ObjectiveTrackerFrame",
 	"PlayerHasToy",
-	"PlayerFrame"
+	"PlayerFrame",
 	"PlaySound",
 	"PlaySoundFile",
 	"PVPMatchScoreboard",
