@@ -4,7 +4,7 @@ local defaultSettings = {
 	Ofsx = 0,
 	Ofsy = 0
 }
-local raidframes = UnitInCombat:NewModule("raidframes", RAID_FRAMES_LABEL, 4, defaultSettings, options)
+local raidframes = UnitInCombat:NewModule("raidframes", RAID_FRAMES_LABEL, 4, defaultSettings)
 
 function raidframes:Enable()
 	hooksecurefunc("CompactUnitFrame_UpdateAll", function(frame)

@@ -35,14 +35,12 @@ UnitInCombat:RegisterEvent("PLAYER_LOGIN")
 UnitInCombat.Modules = {}
 
 
-function UnitInCombat:NewModule(moduleName, localeModuleName, order, defaultSettings, options)
+function UnitInCombat:NewModule(moduleName, localeModuleName, order, defaultSettings)
 	if self.Modules[moduleName] then return error("module "..moduleName.." is already registered") end
 	local moduleFrame = CreateFrame("Frame", nil, UIParent)
 	moduleFrame.moduleName = moduleName
 	moduleFrame.localeModuleName = localeModuleName
 	moduleFrame.defaultSettings = defaultSettings or {}
-	moduleFrame.options = options
-	moduleFrame.eventsTable = eventsTable
 	moduleFrame.order = order
 
 
@@ -69,8 +67,6 @@ function UnitInCombat:NewModule(moduleName, localeModuleName, order, defaultSett
 	moduleFrame.GetModuleConfig = function(self)
 		return UnitInCombat.db.profile[self.moduleName]
 	end
-
-	if frameFunctions then Mixin(frame, frameFunctions) end
 	
 	moduleFrame.MainFrame = self
 

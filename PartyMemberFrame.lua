@@ -4,7 +4,7 @@ local defaultSettings = {
 	Ofsx = 0,
 	Ofsy = 0
 }
-local partyMemberFrame = UnitInCombat:NewModule("PartyMembers", PARTY_MEMBERS, 1, defaultSettings, options)
+local partyMemberFrame = UnitInCombat:NewModule("PartyMembers", PARTY_MEMBERS, 1, defaultSettings)
 
 function partyMemberFrame:Enable()
 	for i = 1, 4 do

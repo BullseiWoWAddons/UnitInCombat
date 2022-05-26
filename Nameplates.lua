@@ -4,7 +4,7 @@ local defaultSettings = {
 	Ofsx = 0,
 	Ofsy = 0
 }
-local nameplates = UnitInCombat:NewModule("nameplates", UNIT_NAMEPLATES, 5, defaultSettings, options)
+local nameplates = UnitInCombat:NewModule("nameplates", UNIT_NAMEPLATES, 5, defaultSettings)
 
 function nameplates:Enable()
 	nameplates:RegisterEvent("NAME_PLATE_UNIT_ADDED")

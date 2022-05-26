@@ -4,7 +4,7 @@ local defaultSettings = {
 	Ofsx = 0,
 	Ofsy = 0
 }
-local arenaEnemyFrame = UnitInCombat:NewModule("ArenaEnemies", ARENA, 1, defaultSettings, options)
+local arenaEnemyFrame = UnitInCombat:NewModule("ArenaEnemies", ARENA, 1, defaultSettings)
 
 function arenaEnemyFrame:Enable()
 	for i = 1, 5 do

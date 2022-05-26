@@ -1,3 +1,15 @@
+local GetSpellBookItemInfo = GetSpellBookItemInfo
+local GetSpellBookItemTexture = GetSpellBookItemTexture
+local GetFlyoutInfo = GetFlyoutInfo
+local GetFlyoutSlotInfo = GetFlyoutSlotInfo
+local GetLooseMacroIcons = GetLooseMacroIcons
+local GetLooseMacroItemIcons = GetLooseMacroItemIcons
+local GetMacroIcons = GetMacroIcons
+local GetMacroItemIcons = GetMacroItemIcons
+local GetScreenWidth = GetScreenWidth
+local FauxScrollFrame_GetOffset = FauxScrollFrame_GetOffset
+local FauxScrollFrame_Update = FauxScrollFrame_Update
+
 local NUM_ICONS_PER_ROW = 10
 local NUM_ICON_ROWS = 9
 local NUM_ICONS_SHOWN = NUM_ICONS_PER_ROW * NUM_ICON_ROWS
@@ -184,7 +196,7 @@ function IconSelectorFrameMixin:BuildIconTable()
 	GetMacroItemIcons( ICON_FILENAMES )
 end
 
-function GetSpellorMacroIconInfo(index)
+local function GetSpellorMacroIconInfo(index)
 	if ( not index ) then
 		return
 	end
