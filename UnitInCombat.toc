@@ -8,6 +8,8 @@
 ## SavedVariables: UnitInCombatDB
 ## OptionalDeps: Ace3, LibStub, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets
 ## Notes: Default UI Combat Display, display whether the unit is in combat or not.
+## X-Curse-Project-ID: 266313
+
 
 #@no-lib-strip@
 embeds.xml
