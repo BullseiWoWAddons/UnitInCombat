@@ -157,7 +157,7 @@ function UnitInCombat:CreateIconFrameFor(moduleFrame, parentFrame, unitID)
 		parentFrame.UnitInCombat:SetScript("OnHide", function(self) 
 			self.isVisible = false
 		end)
-		if parentFrame.UnitInCombat:IsVisible() then parentFrame.isVisible = true end
+		if parentFrame.UnitInCombat:IsVisible() then parentFrame.UnitInCombat.isVisible = true end
 
 		parentFrame.UnitInCombat:SetWidth(IconWidth)
 		parentFrame.UnitInCombat:SetHeight(IconHeight)
