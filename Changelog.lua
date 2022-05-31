@@ -2,6 +2,17 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "9.2.0.2",
+		Sections = {
+			{
+				Header = "Bugfixes",
+				Entries = {
+					"Removed an unwanted global variable and fixed a error that sometimes appears."
+				}
+			}
+		}
+	},
+	{
 		Version = "9.2.0.1",
 		Sections = {
 			{
