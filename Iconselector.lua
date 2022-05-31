@@ -14,7 +14,7 @@ local NUM_ICONS_PER_ROW = 10
 local NUM_ICON_ROWS = 9
 local NUM_ICONS_SHOWN = NUM_ICONS_PER_ROW * NUM_ICON_ROWS
 local ICON_ROW_HEIGHT = 36
-ICON_FILENAMES = nil
+local ICON_FILENAMES = nil
 
 
 IconSelectorFrameMixin = {}

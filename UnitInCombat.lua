@@ -9,7 +9,14 @@ local LibChangelog = LibStub("LibChangelog")
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitIsEnemy = UnitIsEnemy
 
+local sentMessages = {}
 
+local function OnetimeInformation(...)
+	local message = table.concat({...}, ", ")
+	if sentMessages[message] then return end
+	print("|cff0099ffUnitInCombat:|r", message) 
+	sentMessages[message] = true
+end
 
 local UnitInCombat = CreateFrame("Frame", "UnitInCombat")
 UnitInCombat:SetScript("OnEvent", function(self, event, ...)
@@ -217,7 +224,7 @@ function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame)
 
 
 	local unitID = uic.unitID
-	local moduleConfig = uic.moduleConfig
+	if not unitID then OnetimeInformation("no unitID for", parentFrame:GetName()) return end
 
 	local inCombat = UnitAffectingCombat(unitID)
 	local showIcon, hideIcon
@@ -229,7 +236,7 @@ function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame)
 		hideIcon = "Combat"
 	end
 
-
+	local moduleConfig = uic.moduleConfig
 	if UnitIsEnemy("player", unitID) then
 		if moduleConfig.ShowOnHostile then
 			self:ShowIconFrameByType(uic, showIcon, hideIcon)
