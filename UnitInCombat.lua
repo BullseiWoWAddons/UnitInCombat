@@ -75,8 +75,6 @@ function UnitInCombat:NewModule(moduleName, localeModuleName, order, defaultSett
 		return UnitInCombat.db.profile[self.moduleName]
 	end
 	
-	moduleFrame.MainFrame = self
-
 	self.Modules[moduleName] = moduleFrame
 	return moduleFrame
 end
