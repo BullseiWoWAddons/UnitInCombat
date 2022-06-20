@@ -2,6 +2,17 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "9.2.5.0",
+		Sections = {
+			{
+				Header = "Updates",
+				Entries = {
+					"Updated TOC"
+				}
+			}
+		}
+	},
+	{
 		Version = "9.2.0.2",
 		Sections = {
 			{

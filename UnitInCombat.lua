@@ -1,5 +1,5 @@
 ---inspration from http://www.wowinterface.com/downloads/info23167-TargetInCombat.html
--- http://www.wowinterface.com/downloads/info24322-CombatIndicator.htmland 
+-- http://www.wowinterface.com/downloads/info24322-CombatIndicator.htmland
 
 local AddonName, Data = ...
 local L = Data.L
@@ -14,13 +14,13 @@ local sentMessages = {}
 local function OnetimeInformation(...)
 	local message = table.concat({...}, ", ")
 	if sentMessages[message] then return end
-	print("|cff0099ffUnitInCombat:|r", message) 
+	print("|cff0099ffUnitInCombat:|r", message)
 	sentMessages[message] = true
 end
 
 local UnitInCombat = CreateFrame("Frame", "UnitInCombat")
 UnitInCombat:SetScript("OnEvent", function(self, event, ...)
-	self[event](self, ...)		
+	self[event](self, ...)
 end)
 UnitInCombat.VisibleFrames = {} --key = name of visible frame, value = unitID of that frame
 UnitInCombat.HookedFrames = {}
@@ -31,7 +31,7 @@ local _G = _G
 
 UnitInCombat.Icons = { --one of the two (or both) must be enabled, otherwise u won't see an icon
 	"Combat",
-	"OutOfCombat"			
+	"OutOfCombat"
 }
 
 
@@ -65,7 +65,7 @@ function UnitInCombat:NewModule(moduleName, localeModuleName, order, defaultSett
 
 	moduleFrame:SetScript("OnEvent", function(self, event, ...)
 		UnitInCombat:Debug("UnitInCombat module event", moduleName, event, ...)
-		self[event](self, ...) 
+		self[event](self, ...)
 	end)
 	moduleFrame.Debug = function(self, ...)
 		UnitInCombat:Debug("UnitInCombat module debug", moduleName, ...)
@@ -74,7 +74,7 @@ function UnitInCombat:NewModule(moduleName, localeModuleName, order, defaultSett
 	moduleFrame.GetModuleConfig = function(self)
 		return UnitInCombat.db.profile[self.moduleName]
 	end
-	
+
 	self.Modules[moduleName] = moduleFrame
 	return moduleFrame
 end
@@ -89,7 +89,7 @@ function UnitInCombat:SetPositionAndScale(uic)
 		uic:SetPoint("RIGHT", uic:GetParent(), "LEFT", moduleConfig.Ofsx, moduleConfig.Ofsy)
 	elseif moduleConfig.PositionSetting == "RIGHT" then
 		uic:SetPoint("LEFT", uic:GetParent(), "RIGHT", moduleConfig.Ofsx, moduleConfig.Ofsy)
-	elseif moduleConfig.PositionSetting == "BOTTOM" then 
+	elseif moduleConfig.PositionSetting == "BOTTOM" then
 		uic:SetPoint("TOP", uic:GetParent(), "BOTTOM", moduleConfig.Ofsx, moduleConfig.Ofsy)
 	end
 	uic:SetScale(moduleConfig.Scale)
@@ -102,7 +102,7 @@ function UnitInCombat:ToggleModules()
 				moduleFrame.Enabled = true
 				if moduleFrame.Enable then moduleFrame:Enable() end
 			end
-		else 
+		else
 			if moduleFrame.Enabled then
 				moduleFrame.Enabled = false
 				if moduleFrame.Disable then moduleFrame:Disable() end
@@ -125,7 +125,7 @@ function UnitInCombat:ApplySettingsForParentFrame(parentFrame)
 	if uic.moduleFrame.Enabled then
 		if uic.moduleConfig.EnabledZones[self.Zone] then
 			self:SetPositionAndScale(uic)
-			self:CallFuncOnAllIconFrames(uic, function(iconFrame) 
+			self:CallFuncOnAllIconFrames(uic, function(iconFrame)
 				iconFrame.texture:SetTexture(self.db.profile.GeneralSettings[iconFrame.type.."Icon"])
 			end)
 			uic:Show()
@@ -154,12 +154,12 @@ function UnitInCombat:CreateIconFrameFor(moduleFrame, parentFrame, unitID)
 		parentFrame:HookScript("OnHide", UnitInCombat.OnHide)
 		if parentFrame:IsVisible() then UnitInCombat.OnShow(parentFrame) end
 		self.HookedFrames[parentFrame] = true
-		
+
 		parentFrame.UnitInCombat = CreateFrame("Frame", nil, parentFrame)
-		parentFrame.UnitInCombat:SetScript("OnShow", function(self) 
+		parentFrame.UnitInCombat:SetScript("OnShow", function(self)
 			self.isVisible = true
 		end)
-		parentFrame.UnitInCombat:SetScript("OnHide", function(self) 
+		parentFrame.UnitInCombat:SetScript("OnHide", function(self)
 			self.isVisible = false
 		end)
 		if parentFrame.UnitInCombat:IsVisible() then parentFrame.UnitInCombat.isVisible = true end
@@ -168,18 +168,18 @@ function UnitInCombat:CreateIconFrameFor(moduleFrame, parentFrame, unitID)
 		parentFrame.UnitInCombat:SetHeight(IconHeight)
 
 		for i = 1, #self.Icons do
-			local type = self.Icons[i]	
-	
+			local type = self.Icons[i]
+
 			local iconFrame = CreateFrame("Frame", nil, parentFrame.UnitInCombat)
-			iconFrame:SetScript("OnShow", function(self) 
+			iconFrame:SetScript("OnShow", function(self)
 				self.isVisible = true
 			end)
-			iconFrame:SetScript("OnHide", function(self) 
+			iconFrame:SetScript("OnHide", function(self)
 				self.isVisible = false
 			end)
 			iconFrame:SetAllPoints()
 			iconFrame:Hide()
-			
+
 			iconFrame.type = type
 			iconFrame.texture = iconFrame:CreateTexture(nil, "BACKGROUND")
 			iconFrame.texture:SetAllPoints()
@@ -188,18 +188,18 @@ function UnitInCombat:CreateIconFrameFor(moduleFrame, parentFrame, unitID)
 
 			parentFrame.UnitInCombat.moduleFrame = moduleFrame
 			parentFrame.UnitInCombat[type] = iconFrame
-			parentFrame.UnitInCombat.GetModuleConfig = function() 
+			parentFrame.UnitInCombat.GetModuleConfig = function()
 				return moduleFrame:GetModuleConfig()
 			end
-			
+
 		end
 		self:ApplySettingsForParentFrame(parentFrame)
 	end
 	parentFrame.UnitInCombat.unitID = unitID
 end
 
-function UnitInCombat:HideAllIconFrames(uic) 
-	UnitInCombat:CallFuncOnAllIconFrames(uic, function(iconFrame)  
+function UnitInCombat:HideAllIconFrames(uic)
+	UnitInCombat:CallFuncOnAllIconFrames(uic, function(iconFrame)
 		if iconFrame and iconFrame.isVisible then
 			iconFrame:Hide()
 		end
@@ -249,33 +249,33 @@ function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame)
 		end
 	end
 end
-	
+
 function UnitInCombat:SetZone()
 	local _, zone = IsInInstance()
 	self.Zone = zone
 	self:ApplyAllSettings()
-end	
+end
 
-	
+
 function UnitInCombat.OnShow(parentFrame)
-	if not UnitInCombat.VisibleFrames[parentFrame:GetName()] then 
+	if not UnitInCombat.VisibleFrames[parentFrame:GetName()] then
 		UnitInCombat.VisibleFrames[parentFrame:GetName()] = true
 	end
 end
 
 function UnitInCombat.OnHide(parentFrame)
-	if UnitInCombat.VisibleFrames[parentFrame:GetName()] then 
+	if UnitInCombat.VisibleFrames[parentFrame:GetName()] then
 		UnitInCombat.VisibleFrames[parentFrame:GetName()] = nil
 	end
 end
-	
+
 
 function UnitInCombat:ProfileChanged()
 	self:SetupOptions()
 	self:ApplyAllSettings()
 end
 
-function UnitInCombat:PLAYER_LOGIN()	
+function UnitInCombat:PLAYER_LOGIN()
 	self.db = LibStub("AceDB-3.0"):New("UnitInCombatDB", Data.defaultSettings, true)
 
 	self.db.RegisterCallback(self, "OnProfileChanged", "ProfileChanged")
@@ -289,17 +289,17 @@ function UnitInCombat:PLAYER_LOGIN()
 	LibChangelog:ShowChangelog(AddonName)
 
 
-	
+
 	self:SetupOptions()
 
 	AceConfigDialog:SetDefaultSize("UnitInCombat", 709, 532)
 	AceConfigDialog:AddToBlizOptions("UnitInCombat", "UnitInCombat")
 
-	
+
 	--DBObjectLib:ResetProfile(noChildren, noCallbacks)
 
 
-	
+
 	self:UnregisterEvent("PLAYER_LOGIN")
 end
 

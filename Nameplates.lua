@@ -8,7 +8,7 @@ local nameplates = UnitInCombat:NewModule("nameplates", UNIT_NAMEPLATES, 5, defa
 
 function nameplates:Enable()
 	nameplates:RegisterEvent("NAME_PLATE_UNIT_ADDED")
-	nameplates:SetScript("OnEvent", function(self, event, ...) 
+	nameplates:SetScript("OnEvent", function(self, event, ...)
 		if self[event] then return self[event](self, ...) end
 	end)
 end

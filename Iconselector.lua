@@ -26,7 +26,7 @@ function IconSelectorFrameMixin:AdjustAnchors()
 	local rightSpace = GetScreenWidth() - self:GetParent():GetRight()
 	self.parentLeft = self:GetParent():GetLeft()
 	local leftSpace = self.parentLeft
-	
+
 	self:ClearAllPoints()
 	if ( leftSpace >= rightSpace ) then
 		if ( leftSpace < self:GetWidth() + ICON_SELECTOR_FRAME_MINIMUM_PADDING ) then
@@ -42,7 +42,7 @@ function IconSelectorFrameMixin:AdjustAnchors()
 		end
 	end
 end
-	
+
 function IconSelectorFrameMixin:OnLoad()
 	local iconSelectorFrame = self
 	self.ScrollFrame:SetScript("OnVerticalScroll", function(self, offset)
@@ -52,17 +52,17 @@ function IconSelectorFrameMixin:OnLoad()
 
 
 	self.ScrollFrame.ScrollBar.scrollStep = 8 * ICON_ROW_HEIGHT
-	self.BorderBox.EditBox:SetScript("OnTextChanged", function() 
+	self.BorderBox.EditBox:SetScript("OnTextChanged", function()
 		iconSelectorFrame:PopupOkayButton_Update()
 	end)
-	self.BorderBox.EditBox:SetScript("OnEscapePressed", function() 
+	self.BorderBox.EditBox:SetScript("OnEscapePressed", function()
 		self:CancelEdit()
 	end)
-	self.BorderBox.EditBox:SetScript("OnEnterPressed", function() 
+	self.BorderBox.EditBox:SetScript("OnEnterPressed", function()
 		self:OkayButton_OnClick(self.BorderBox.OkayButton)
 	end)
 
-	self.BorderBox.OkayButton:SetScript("OnClick", function(self, button) 
+	self.BorderBox.OkayButton:SetScript("OnClick", function(self, button)
 		local index = 1
 		local iconTexture = GetSpellorMacroIconInfo(iconSelectorFrame.selectedIcon)
 
@@ -70,7 +70,7 @@ function IconSelectorFrameMixin:OnLoad()
 		iconSelectorFrame:Hide()
 	end)
 
-	self.BorderBox.CancelButton:SetScript("OnClick", function() 
+	self.BorderBox.CancelButton:SetScript("OnClick", function()
 		iconSelectorFrame:Hide()
 		iconSelectorFrame:Update()
 		iconSelectorFrame.selectedIcon = nil
@@ -113,7 +113,7 @@ function IconSelectorFrameMixin:BuildIconArray(template, rowSize, numRows)
 	self.selectorButtons = {}
 	local iconSelectorFrame = self
 	local previousButton = CreateFrame("CheckButton", nil, self, template)
-	previousButton:SetScript("OnClick", function(self, button) 
+	previousButton:SetScript("OnClick", function(self, button)
 		iconSelectorFrame:SelectTexture(self:GetID() + (FauxScrollFrame_GetOffset(iconSelectorFrame.ScrollFrame) * NUM_ICONS_PER_ROW))
 	end)
 
@@ -126,7 +126,7 @@ function IconSelectorFrameMixin:BuildIconArray(template, rowSize, numRows)
 	local numIcons = rowSize * numRows
 	for i = 2, numIcons do
 		local newButton = CreateFrame("CheckButton", nil, self, template)
-		newButton:SetScript("OnClick", function(self, button) 
+		newButton:SetScript("OnClick", function(self, button)
 			iconSelectorFrame:SelectTexture(self:GetID() + (FauxScrollFrame_GetOffset(iconSelectorFrame.ScrollFrame) * NUM_ICONS_PER_ROW))
 		end)
 		newButton:SetID(i)
@@ -151,17 +151,17 @@ function IconSelectorFrameMixin:BuildIconTable()
 	if ( ICON_FILENAMES ) then
 		return
 	end
-	
+
 	-- We need to avoid adding duplicate spellIDs from the spellbook tabs for your other specs.
 	local activeIcons = {}
-	
+
 	for i = 1, GetNumSpellTabs() do
 		local tab, tabTex, offset, numSpells, _ = GetSpellTabInfo(i)
 		offset = offset + 1
 		local tabEnd = offset + numSpells
 		for j = offset, tabEnd - 1 do
 			--to get spell info by slot, you have to pass in a pet argument
-			local spellType, ID = GetSpellBookItemInfo(j, "player") 
+			local spellType, ID = GetSpellBookItemInfo(j, "player")
 			if (spellType ~= "FUTURESPELL") then
 				local fileID = GetSpellBookItemTexture(j, "player")
 				if (fileID) then
@@ -171,7 +171,7 @@ function IconSelectorFrameMixin:BuildIconTable()
 			if (spellType == "FLYOUT") then
 				local _, _, numSlots, isKnown = GetFlyoutInfo(ID)
 				if (isKnown and numSlots > 0) then
-					for k = 1, numSlots do 
+					for k = 1, numSlots do
 						local spellID, overrideSpellID, isKnown = GetFlyoutSlotInfo(ID, k)
 						if (isKnown) then
 							local fileID = GetSpellTexture(spellID)
@@ -216,15 +216,15 @@ function IconSelectorFrameMixin:Update()
 	local PopupIcon, PopupButton
 	local PopupOffset = FauxScrollFrame_GetOffset(self.ScrollFrame)
 	local index
-	
+
 	-- Determine whether we're creating a new macro or editing an existing one
 	self.BorderBox.EditBox:SetText("")
-	
-	
+
+
 	-- Icon list
 	local texture
 	for i=1, NUM_ICONS_SHOWN do
-		
+
 		PopupButton = self.selectorButtons[i]
 		index = (PopupOffset * NUM_ICONS_PER_ROW) + i
 		texture = GetSpellorMacroIconInfo(index)
@@ -234,7 +234,7 @@ function IconSelectorFrameMixin:Update()
 				PopupButton.Icon:SetTexture(texture)
 			else
 				PopupButton.Icon:SetTexture("INTERFACE\\ICONS\\"..texture)
-			end		
+			end
 			PopupButton:Show()
 		else
 			PopupButton.Icon:SetTexture("")
@@ -248,7 +248,7 @@ function IconSelectorFrameMixin:Update()
 			PopupButton:SetChecked(false)
 		end
 	end
-	
+
 	-- Scrollbar stuff
 	FauxScrollFrame_Update(self.ScrollFrame, ceil(numIcons / NUM_ICONS_PER_ROW) + 1, NUM_ICON_ROWS, ICON_ROW_HEIGHT )
 end

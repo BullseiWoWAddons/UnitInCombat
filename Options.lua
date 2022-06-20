@@ -18,7 +18,7 @@ local function copy(obj)
 end
 
 
-local iconselectionframe = CreateFrame("Frame", "TESTNAME", UIParent, "IconSelectorFrameTemplate") 
+local iconselectionframe = CreateFrame("Frame", "TESTNAME", UIParent, "IconSelectorFrameTemplate")
 iconselectionframe:Hide()
 iconselectionframe:SetPoint("CENTER")
 
@@ -27,7 +27,7 @@ iconselectionframe:SetPoint("CENTER")
 local timer = nil
 local function ApplyAllSettings()
 	if timer then timer:Cancel() end -- use a timer to apply changes after 0.2 second, this prevents the UI from getting laggy when the user uses a slider option
-	timer = CTimerNewTicker(0.2, function() 
+	timer = CTimerNewTicker(0.2, function()
 		UnitInCombat:ApplyAllSettings()
 		timer = nil
 	end, 1)
@@ -77,7 +77,7 @@ local function addHorizontalSpacing(order)
 	local horizontalSpacing = {
 		type = "description",
 		name = " ",
-		width = "half",	
+		width = "half",
 		order = order,
 	}
 	return horizontalSpacing
@@ -85,14 +85,14 @@ end
 
 
 
-function UnitInCombat:AddModuleSettings() 
+function UnitInCombat:AddModuleSettings()
 	local i = 1
 	local temp = {}
 	for moduleName, moduleFrame in pairs(self.Modules) do
-	
+
 
 		local location = self.db.profile[moduleName]
-		
+
 		temp[moduleName]  = {
 			type = "group",
 			name = moduleFrame.localeModuleName,
@@ -100,7 +100,7 @@ function UnitInCombat:AddModuleSettings()
 			get =  function(option)
 				return getOption(location, option)
 			end,
-			set = function(option, ...) 
+			set = function(option, ...)
 				return setOption(location, option, ...)
 			end,
 			args = {
@@ -120,7 +120,7 @@ function UnitInCombat:AddModuleSettings()
 					get = function(option, key)
 						return location.EnabledZones[key]
 					end,
-					set = function(option, key, state) 
+					set = function(option, key, state)
 						location.EnabledZones[key] = state
 						UnitInCombat:ApplyAllSettings()
 					end
@@ -143,7 +143,7 @@ function UnitInCombat:AddModuleSettings()
 							name = "Show on hostile units",
 							width = "normal",
 							order = 2
-						}		
+						}
 					}
 				},
 				PositionAndScale  = {
@@ -190,7 +190,7 @@ function UnitInCombat:AddModuleSettings()
 				Reset = {
 					type = "execute",
 					name = "Reset the settings of this section",
-					func = function() 
+					func = function()
 						self.db.profile[moduleName] = copy(self.db.defaults.profile[moduleName])
 
 						UnitInCombat:ProfileChanged()
@@ -241,13 +241,13 @@ function UnitInCombat:SetupOptions()
 								type = "execute",
 								name = "combat icon",
 								image = function() return location.GeneralSettings.CombatIcon end,
-								func = function(option) 
+								func = function(option)
 									local optiontable = {} --hold a copy of the option table for the OnOkayButtonPressed otherweise the table will be empty
 									Mixin(optiontable, option)
-									iconselectionframe:Show() 
-									function iconselectionframe:OnOkayButtonPressed(texture) 					
+									iconselectionframe:Show()
+									function iconselectionframe:OnOkayButtonPressed(texture)
 										setOption(location.GeneralSettings, optiontable, texture)
-		
+
 										AceConfigRegistry:NotifyChange("UnitInCombat");
 									end
 								end,
@@ -258,13 +258,13 @@ function UnitInCombat:SetupOptions()
 								type = "execute",
 								name = "ouf of combat icon",
 								image = function() return location.GeneralSettings.OutOfCombatIcon end,
-								func = function(option) 
+								func = function(option)
 									local optiontable = {} --hold a copy of the option table for the OnOkayButtonPressed otherweise the table will be empty
 									Mixin(optiontable, option)
-									iconselectionframe:Show() 
-									function iconselectionframe:OnOkayButtonPressed(texture) 					
+									iconselectionframe:Show()
+									function iconselectionframe:OnOkayButtonPressed(texture)
 										setOption(location.GeneralSettings, optiontable, texture)
-		
+
 										AceConfigRegistry:NotifyChange("UnitInCombat");
 									end
 								end,
@@ -274,7 +274,7 @@ function UnitInCombat:SetupOptions()
 							Reset = {
 								type = "execute",
 								name = "Reset icons to defaults",
-								func = function() 
+								func = function()
 									self.db.profile.GeneralSettings = copy(self.db.defaults.profile.GeneralSettings)
 
 									UnitInCombat:ProfileChanged()
@@ -293,16 +293,16 @@ function UnitInCombat:SetupOptions()
 						args = self:AddModuleSettings(location)
 					}
 				}
-			}		
+			}
 		}
 	}
 
 
 	AceConfigRegistry:RegisterOptionsTable("UnitInCombat", self.options)
-		
-	
-	
-	--add profile tab to the options 
+
+
+
+	--add profile tab to the options
 	self.options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
 	self.options.args.profiles.order = -1
 end
