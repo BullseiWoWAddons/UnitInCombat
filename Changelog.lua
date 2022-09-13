@@ -2,6 +2,23 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "9.2.7.0",
+		Sections = {
+			{
+				Header = "Updates",
+				Entries = {
+					"Updated TOC"
+				}
+			},
+			{
+				Header = "New Feature",
+				Entries = {
+					"Added an option to disable combat and out of combat icons"
+				}
+			}
+		}
+	},
+	{
 		Version = "9.2.5.0",
 		Sections = {
 			{

@@ -206,12 +206,46 @@ function UnitInCombat:HideAllIconFrames(uic)
 	end)
 end
 
-function UnitInCombat:ShowIconFrameByType(uic, showType, hideType)
-	if uic[showType] and not uic[showType].isVisible then
-		uic[showType]:Show()
+function UnitInCombat:UpdateIconFrames(uic, unitID)
+
+	local inCombat = UnitAffectingCombat(unitID)
+	local showCombat, showOutOfCombat
+	if inCombat then
+		if self.db.profile.GeneralSettings.CombatIconEnabled then
+			showCombat = true
+			showOutOfCombat = false
+		else
+			showCombat = false
+			showOutOfCombat = false
+		end
+	else
+		if self.db.profile.GeneralSettings.OutOfCombatIconEnabled then
+			showCombat = false
+			showOutOfCombat = true
+		else
+			showCombat = false
+			showOutOfCombat = false
+		end
 	end
-	if uic[hideType] and uic[hideType].isVisible then
-		uic[hideType]:Hide()
+
+	if showCombat then
+		if uic.Combat and not uic.Combat.isVisible then
+			uic.Combat:Show()
+		end
+	else
+		if uic.Combat and uic.Combat.isVisible then
+			uic.Combat:Hide()
+		end
+	end
+
+	if showOutOfCombat then
+		if uic.OutOfCombat and not uic.OutOfCombat.isVisible then
+			uic.OutOfCombat:Show()
+		end
+	else
+		if uic.OutOfCombat and uic.OutOfCombat.isVisible then
+			uic.OutOfCombat:Hide()
+		end
 	end
 end
 
@@ -224,26 +258,18 @@ function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame)
 	local unitID = uic.unitID
 	if not unitID then OnetimeInformation("no unitID for", parentFrame:GetName()) return end
 
-	local inCombat = UnitAffectingCombat(unitID)
-	local showIcon, hideIcon
-	if inCombat then
-		showIcon = "Combat"
-		hideIcon = "OutOfCombat"
-	else
-		showIcon = "OutOfCombat"
-		hideIcon = "Combat"
-	end
+
 
 	local moduleConfig = uic.moduleConfig
 	if UnitIsEnemy("player", unitID) then
 		if moduleConfig.ShowOnHostile then
-			self:ShowIconFrameByType(uic, showIcon, hideIcon)
+			self:UpdateIconFrames(uic, unitID)
 		else
 			self:HideAllIconFrames(uic)
 		end
 	else
 		if moduleConfig.ShowOnFriendly then
-			self:ShowIconFrameByType(uic, showIcon, hideIcon)
+			self:UpdateIconFrames(uic, unitID)
 		else
 			self:HideAllIconFrames(uic)
 		end

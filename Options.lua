@@ -237,6 +237,12 @@ function UnitInCombat:SetupOptions()
 						end,
 						order = 1,
 						args = {
+							CombatIconEnabled = {
+								type = "toggle",
+								name = "Enabled Combat icon",
+								width = "normal",
+								order = 1
+							},
 							CombatIcon = {
 								type = "execute",
 								name = "combat icon",
@@ -251,8 +257,16 @@ function UnitInCombat:SetupOptions()
 										AceConfigRegistry:NotifyChange("UnitInCombat");
 									end
 								end,
+								disabled = function() return not location.GeneralSettings.CombatIconEnabled end,
 								width = "half",
-								order = 1,
+								order = 2,
+							},
+							Spacing2 = addVerticalSpacing(3),
+							OutOfCombatIconEnabled = {
+								type = "toggle",
+								name = "Enabled Out of Combat icon",
+								width = "normal",
+								order = 4
 							},
 							OutOfCombatIcon = {
 								type = "execute",
@@ -268,12 +282,14 @@ function UnitInCombat:SetupOptions()
 										AceConfigRegistry:NotifyChange("UnitInCombat");
 									end
 								end,
+								disabled = function() return not location.GeneralSettings.OutOfCombatIconEnabled end,
 								width = "half",
-								order = 2,
+								order = 5,
 							},
+							Spacing = addVerticalSpacing(6),
 							Reset = {
 								type = "execute",
-								name = "Reset icons to defaults",
+								name = "Reset to defaults",
 								func = function()
 									self.db.profile.GeneralSettings = copy(self.db.defaults.profile.GeneralSettings)
 
@@ -281,7 +297,7 @@ function UnitInCombat:SetupOptions()
 									AceConfigRegistry:NotifyChange("UnitInCombat");
 								end,
 								width = "full",
-								order = 2,
+								order = 7,
 							}
 						}
 					},

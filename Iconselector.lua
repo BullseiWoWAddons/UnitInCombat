@@ -20,7 +20,19 @@ local ICON_FILENAMES = nil
 IconSelectorFrameMixin = {}
 local ICON_SELECTOR_FRAME_MINIMUM_PADDING = 40
 
-
+-- mofidied from Blizzard_MacroUI.lua
+local GetSpellorMacroIconInfo = function(index)
+	if ( not index ) then
+		return
+	end
+	local texture = ICON_FILENAMES[index]
+	local texnum = tonumber(texture)
+	if (texnum ~= nil) then
+		return texnum
+	else
+		return texture
+	end
+end
 
 function IconSelectorFrameMixin:AdjustAnchors()
 	local rightSpace = GetScreenWidth() - self:GetParent():GetRight()
@@ -195,21 +207,6 @@ function IconSelectorFrameMixin:BuildIconTable()
 	GetMacroIcons( ICON_FILENAMES )
 	GetMacroItemIcons( ICON_FILENAMES )
 end
-
-local function GetSpellorMacroIconInfo(index)
-	if ( not index ) then
-		return
-	end
-	local texture = ICON_FILENAMES[index]
-	local texnum = tonumber(texture)
-	if (texnum ~= nil) then
-		return texnum
-	else
-		return texture
-	end
-end
-
-
 
 function IconSelectorFrameMixin:Update()
 	local numIcons = #ICON_FILENAMES
