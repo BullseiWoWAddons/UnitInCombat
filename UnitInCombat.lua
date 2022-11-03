@@ -132,6 +132,7 @@ function UnitInCombat:ApplySettingsForParentFrame(parentFrame)
 		else
 			uic:Hide()
 		end
+		self:ToggleFrameOnUnitUpdate(parentFrame, true)
 	else
 		uic:Hide()
 	end
@@ -148,7 +149,7 @@ end
 
 
 function UnitInCombat:CreateIconFrameFor(moduleFrame, parentFrame, unitID)
-	local parentFrameName = parentFrame:GetName()
+	if not parentFrame then return end
 	if not self.HookedFrames[parentFrame] then
 		parentFrame:HookScript("OnShow", UnitInCombat.OnShow)
 		parentFrame:HookScript("OnHide", UnitInCombat.OnHide)
@@ -193,9 +194,9 @@ function UnitInCombat:CreateIconFrameFor(moduleFrame, parentFrame, unitID)
 			end
 
 		end
-		self:ApplySettingsForParentFrame(parentFrame)
 	end
 	parentFrame.UnitInCombat.unitID = unitID
+	self:ApplySettingsForParentFrame(parentFrame)
 end
 
 function UnitInCombat:HideAllIconFrames(uic)
@@ -206,11 +207,11 @@ function UnitInCombat:HideAllIconFrames(uic)
 	end)
 end
 
-function UnitInCombat:UpdateIconFrames(uic, unitID)
+function UnitInCombat:UpdateIconFrames(uic, unitID, forceUpdate)
 
 	local inCombat = UnitAffectingCombat(unitID)
 
-	if inCombat ~= self.wasInCombat then
+	if inCombat ~= uic.wasInCombat or forceUpdate then
 		local showCombat = false
 		local showOutOfCombat = false
 
@@ -228,29 +229,29 @@ function UnitInCombat:UpdateIconFrames(uic, unitID)
 		uic.OutOfCombat:SetShown(showOutOfCombat)
 	end
 
-	self.wasInCombat = inCombat
+	uic.wasInCombat = inCombat
 end
 
 
-function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame)
+function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame, forceUpdate)
 	local uic = parentFrame.UnitInCombat
 	if not uic.isVisible then return end -- either the module is disabled or the zone is disabled
 
 
 	local unitID = uic.unitID
-	if not unitID then OnetimeInformation("no unitID for", parentFrame:GetName()) return end
+	if not unitID then return end
 
 	local moduleConfig = uic.moduleConfig
 
 	if UnitIsEnemy("player", unitID) then
 		if moduleConfig.ShowOnHostile then
-			self:UpdateIconFrames(uic, unitID)
+			self:UpdateIconFrames(uic, unitID, forceUpdate)
 		else
 			self:HideAllIconFrames(uic)
 		end
 	else
 		if moduleConfig.ShowOnFriendly then
-			self:UpdateIconFrames(uic, unitID)
+			self:UpdateIconFrames(uic, unitID, forceUpdate)
 		else
 			self:HideAllIconFrames(uic)
 		end
@@ -265,14 +266,14 @@ end
 
 
 function UnitInCombat.OnShow(parentFrame)
-	if not UnitInCombat.VisibleFrames[parentFrame:GetName()] then
-		UnitInCombat.VisibleFrames[parentFrame:GetName()] = true
+	if not UnitInCombat.VisibleFrames[parentFrame] then
+		UnitInCombat.VisibleFrames[parentFrame] = true
 	end
 end
 
 function UnitInCombat.OnHide(parentFrame)
-	if UnitInCombat.VisibleFrames[parentFrame:GetName()] then
-		UnitInCombat.VisibleFrames[parentFrame:GetName()] = nil
+	if UnitInCombat.VisibleFrames[parentFrame] then
+		UnitInCombat.VisibleFrames[parentFrame] = nil
 	end
 end
 
@@ -319,8 +320,8 @@ local vergangenezeit = 0
 UnitInCombat:SetScript("OnUpdate", function (self, elapsed)
 	vergangenezeit = vergangenezeit + elapsed
 	if (vergangenezeit > 0.05) then -- alle 0.05 Sekunden ausführen,
-		for parentFramename in pairs(UnitInCombat.VisibleFrames) do
-			self:ToggleFrameOnUnitUpdate(_G[parentFramename])
+		for parentFrame in pairs(UnitInCombat.VisibleFrames) do
+			self:ToggleFrameOnUnitUpdate(parentFrame)
 		end
 		vergangenezeit = 0
 	end
