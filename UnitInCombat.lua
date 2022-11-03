@@ -209,44 +209,26 @@ end
 function UnitInCombat:UpdateIconFrames(uic, unitID)
 
 	local inCombat = UnitAffectingCombat(unitID)
-	local showCombat, showOutOfCombat
-	if inCombat then
-		if self.db.profile.GeneralSettings.CombatIconEnabled then
-			showCombat = true
-			showOutOfCombat = false
+
+	if inCombat ~= self.wasInCombat then
+		local showCombat = false
+		local showOutOfCombat = false
+
+		if inCombat then
+			if self.db.profile.GeneralSettings.CombatIconEnabled then
+				showCombat = true
+			end
 		else
-			showCombat = false
-			showOutOfCombat = false
+			if self.db.profile.GeneralSettings.OutOfCombatIconEnabled then
+				showOutOfCombat = true
+			end
 		end
-	else
-		if self.db.profile.GeneralSettings.OutOfCombatIconEnabled then
-			showCombat = false
-			showOutOfCombat = true
-		else
-			showCombat = false
-			showOutOfCombat = false
-		end
+
+		uic.Combat:SetShown(showCombat)
+		uic.OutOfCombat:SetShown(showOutOfCombat)
 	end
 
-	if showCombat then
-		if uic.Combat and not uic.Combat.isVisible then
-			uic.Combat:Show()
-		end
-	else
-		if uic.Combat and uic.Combat.isVisible then
-			uic.Combat:Hide()
-		end
-	end
-
-	if showOutOfCombat then
-		if uic.OutOfCombat and not uic.OutOfCombat.isVisible then
-			uic.OutOfCombat:Show()
-		end
-	else
-		if uic.OutOfCombat and uic.OutOfCombat.isVisible then
-			uic.OutOfCombat:Hide()
-		end
-	end
+	self.wasInCombat = inCombat
 end
 
 
@@ -258,9 +240,8 @@ function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame)
 	local unitID = uic.unitID
 	if not unitID then OnetimeInformation("no unitID for", parentFrame:GetName()) return end
 
-
-
 	local moduleConfig = uic.moduleConfig
+
 	if UnitIsEnemy("player", unitID) then
 		if moduleConfig.ShowOnHostile then
 			self:UpdateIconFrames(uic, unitID)
