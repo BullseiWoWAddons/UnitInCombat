@@ -5,6 +5,7 @@ local L = Data.L
 local AceConfig = LibStub("AceConfig-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
+local LibIconSelector = LibStub("LibSpellIconSelector")
 
 
 local CTimerNewTicker = C_Timer.NewTicker
@@ -16,13 +17,6 @@ local function copy(obj)
 	for k, v in pairs(obj) do res[copy(k)] = copy(v) end
 	return res
 end
-
-
-local iconselectionframe = CreateFrame("Frame", "TESTNAME", UIParent, "IconSelectorFrameTemplate")
-iconselectionframe:Hide()
-iconselectionframe:SetPoint("CENTER")
-
-
 
 local timer = nil
 local function ApplyAllSettings()
@@ -245,17 +239,16 @@ function UnitInCombat:SetupOptions()
 							},
 							CombatIcon = {
 								type = "execute",
-								name = "combat icon",
+								name = "ouf of combat icon",
 								image = function() return location.GeneralSettings.CombatIcon end,
 								func = function(option)
 									local optiontable = {} --hold a copy of the option table for the OnOkayButtonPressed otherweise the table will be empty
 									Mixin(optiontable, option)
-									iconselectionframe:Show()
-									function iconselectionframe:OnOkayButtonPressed(texture)
-										setOption(location.GeneralSettings, optiontable, texture)
-
+									LibIconSelector:Show(location.GeneralSettings.CombatIcon, function(spelldata)
+										
+										setOption(location.GeneralSettings, optiontable, spelldata.icon)
 										AceConfigRegistry:NotifyChange("UnitInCombat");
-									end
+									end)
 								end,
 								disabled = function() return not location.GeneralSettings.CombatIconEnabled end,
 								width = "half",
@@ -271,16 +264,15 @@ function UnitInCombat:SetupOptions()
 							OutOfCombatIcon = {
 								type = "execute",
 								name = "ouf of combat icon",
-								image = function() return location.GeneralSettings.OutOfCombatIcon end,
+								image = function() return location.GeneralSettings.OutOfCombatIcon  end,
 								func = function(option)
 									local optiontable = {} --hold a copy of the option table for the OnOkayButtonPressed otherweise the table will be empty
 									Mixin(optiontable, option)
-									iconselectionframe:Show()
-									function iconselectionframe:OnOkayButtonPressed(texture)
-										setOption(location.GeneralSettings, optiontable, texture)
-
+									LibIconSelector:Show(location.GeneralSettings.OutOfCombatIcon, function(spelldata)
+										
+										setOption(location.GeneralSettings, optiontable, spelldata.icon)
 										AceConfigRegistry:NotifyChange("UnitInCombat");
-									end
+									end)
 								end,
 								disabled = function() return not location.GeneralSettings.OutOfCombatIconEnabled end,
 								width = "half",

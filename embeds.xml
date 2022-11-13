@@ -6,4 +6,5 @@
 	<Include file="Libs\AceDB-3.0\AceDB-3.0.xml"/>
 	<Include file="Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml"/>
 	<Include file="Libs\LibChangelog\LibChangelog.xml"/>
+	<Include file="Libs\LibSpellIconSelector\LibSpellIconSelector.xml"/>
 </Ui>

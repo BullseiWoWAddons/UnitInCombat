@@ -16,9 +16,6 @@
 embeds.xml
 #@end-no-lib-strip@
 
-
-Iconselector.lua
-IconSelector.xml
 UnitInCombat.lua
 Defaults.lua
 Changelog.lua

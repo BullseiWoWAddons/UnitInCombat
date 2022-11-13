@@ -2,6 +2,17 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "10.0.0.0",
+		Sections = {
+			{
+				Header = "Updates",
+				Entries = {
+					"More CPU efficient icon updates",
+				}
+			}
+		}
+	},
+	{
 		Version = "9.2.7.0",
 		Sections = {
 			{
