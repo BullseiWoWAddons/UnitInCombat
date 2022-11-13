@@ -8,6 +8,7 @@ Data.changelog = {
 				Header = "Updates",
 				Entries = {
 					"More CPU efficient icon updates",
+					"Added a nice new icon selector which is based on the new macro icon selector in Dragonflight 10.0.0"
 				}
 			}
 		}
