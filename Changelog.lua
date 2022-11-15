@@ -2,6 +2,18 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "10.0.2.0",
+		Sections = {
+			{
+				Header = "Changes",
+				Entries = {
+					"Toc bump for 10.0.2",
+					"Frame for icon selector is now on top/"
+				}
+			}
+		}
+	},
+	{
 		Version = "10.0.0.0",
 		Sections = {
 			{
