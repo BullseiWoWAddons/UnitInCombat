@@ -2,6 +2,17 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "10.0.2.1",
+		Sections = {
+			{
+				Header = "Changes",
+				Entries = {
+					"Update LibSpellIconSelector library to avoid taint. Thanks to zaphon at GitHub for the report.",
+				}
+			}
+		}
+	},
+	{
 		Version = "10.0.2.0",
 		Sections = {
 			{
