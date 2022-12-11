@@ -266,6 +266,7 @@ globals = {
 	"StaticPopupDialogs",
 	"StopSound",
 	"TargetFrame",
+	"TargetFrameMixin",
 	"TargetFrameToT",
 	"Tukui",
 	"UIDropDownMenu_AddButton",
