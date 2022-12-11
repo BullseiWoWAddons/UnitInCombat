@@ -1,4 +1,9 @@
-local defaultSettings = {
+local defaultSettings = TargetFrameMixin and {
+	Scale = 1,
+	PositionSetting = "RIGHT",
+	Ofsx = -4,
+	Ofsy = 0
+} or {
 	Scale = 1,
 	PositionSetting = "RIGHT",
 	Ofsx = -35,
