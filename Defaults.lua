@@ -8,6 +8,9 @@ Data.defaultSettings = {
 			CombatIcon = 132147, --"Interface/Icons/Ability_DualWield",
 			OutOfCombatIconEnabled = true,
 			OutOfCombatIcon = 132310, -- Interface/Icons/ABILITY_SAP",
+			ShowOnPlayers = true,
+			ShowOnCreatures = true,
+			ShowOnPets = true
 		}
 	}
 }
