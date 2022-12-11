@@ -278,7 +278,28 @@ function UnitInCombat:SetupOptions()
 								width = "half",
 								order = 5,
 							},
-							Spacing = addVerticalSpacing(6),
+							Spacing3 = addVerticalSpacing(6),
+							ShowOnPlayers = {
+								type = "toggle",
+								name = "Show on players",
+								width = "normal",
+								order = 7
+							},
+							Spacin4 = addVerticalSpacing(8),
+							ShowOnCreatures = {
+								type = "toggle",
+								name = "Show on creatures",
+								width = "normal",
+								order = 9
+							},
+							Spacing5 = addVerticalSpacing(10),
+							ShowOnPets = {
+								type = "toggle",
+								name = "Show on pets",
+								width = "normal",
+								order = 11
+							},
+							Spacing6 = addVerticalSpacing(12),
 							Reset = {
 								type = "execute",
 								name = "Reset to defaults",
@@ -289,7 +310,7 @@ function UnitInCombat:SetupOptions()
 									AceConfigRegistry:NotifyChange("UnitInCombat");
 								end,
 								width = "full",
-								order = 7,
+								order = 13,
 							}
 						}
 					},

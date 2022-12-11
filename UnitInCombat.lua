@@ -208,9 +208,7 @@ function UnitInCombat:HideAllIconFrames(uic)
 end
 
 function UnitInCombat:UpdateIconFrames(uic, unitID, forceUpdate)
-
 	local inCombat = UnitAffectingCombat(unitID)
-
 	if inCombat ~= uic.wasInCombat or forceUpdate then
 		local showCombat = false
 		local showOutOfCombat = false
@@ -241,8 +239,27 @@ function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame, forceUpdate)
 	local unitID = uic.unitID
 	if not unitID then return end
 
-	local moduleConfig = uic.moduleConfig
+	local unitGUID = UnitGUID(unitID)
+	if not uic.unitGUID or uic.unitGUID ~= unitGUID or forceUpdate then
+		local generalConfig = self.db.profile.GeneralSettings
+		local unitType, _, _, _, _, _, spawnUID = strsplit("-", unitGUID)
+		if unitType == "Player" then
+			if not generalConfig.ShowOnPlayers then
+				return self:HideAllIconFrames(uic)
+			end
+		elseif unitType == "Creature" then
+			if not generalConfig.ShowOnCreatures then
+				return self:HideAllIconFrames(uic)
+			end
+		elseif unitType == "Pet" then
+			if not generalConfig.ShowOnPets then
+				return self:HideAllIconFrames(uic)
+			end
+		end
+		uic.unitGUID = unitGUID
+	end
 
+	local moduleConfig = uic.moduleConfig
 	if UnitIsEnemy("player", unitID) then
 		if moduleConfig.ShowOnHostile then
 			self:UpdateIconFrames(uic, unitID, forceUpdate)

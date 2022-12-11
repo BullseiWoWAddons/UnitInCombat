@@ -2,6 +2,18 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "10.0.2.2",
+		Sections = {
+			{
+				Header = "Changes",
+				Entries = {
+					"Improved the default icon positions for new unitframes in Dragonflight.",
+					"Added settings to hide or show icons based on unit type (Pet, Player or Creature)."
+				}
+			}
+		}
+	},
+	{
 		Version = "10.0.2.1",
 		Sections = {
 			{
