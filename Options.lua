@@ -142,8 +142,7 @@ function UnitInCombat:AddModuleSettings()
 				},
 				PositionAndScale  = {
 					type = "group",
-					name = "position and scale",
-					order = 1,
+					name = "Position and scale",
 					disabled = function() return not location.Enabled end,
 					order = 4,
 					inline = true,
