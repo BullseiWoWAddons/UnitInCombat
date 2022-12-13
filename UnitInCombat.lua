@@ -225,22 +225,25 @@ function UnitInCombat:UpdateIconFrames(uic, unitID, forceUpdate)
 
 		uic.Combat:SetShown(showCombat)
 		uic.OutOfCombat:SetShown(showOutOfCombat)
+		uic.wasInCombat = inCombat
 	end
-
-	uic.wasInCombat = inCombat
 end
 
 
 function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame, forceUpdate)
 	local uic = parentFrame.UnitInCombat
-	if not uic.isVisible then return end -- either the module is disabled or the zone is disabled
 
+	if not uic.isVisible then return end -- either the module is disabled or the zone is disabled
 
 	local unitID = uic.unitID
 	if not unitID then return end
 
 	local unitGUID = UnitGUID(unitID)
-	if not uic.unitGUID or uic.unitGUID ~= unitGUID or forceUpdate then
+	if not uic.unitGUID or uic.unitGUID ~= unitGUID then
+		forceUpdate = true
+	end
+
+	if forceUpdate then
 		local generalConfig = self.db.profile.GeneralSettings
 		local unitType, _, _, _, _, _, spawnUID = strsplit("-", unitGUID)
 		if unitType == "Player" then
@@ -258,6 +261,7 @@ function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame, forceUpdate)
 		end
 		uic.unitGUID = unitGUID
 	end
+
 
 	local moduleConfig = uic.moduleConfig
 	if UnitIsEnemy("player", unitID) then

@@ -2,6 +2,17 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "10.0.2.3",
+		Sections = {
+			{
+				Header = "Bugfixes",
+				Entries = {
+					"Fixed a bug reported by Luunii_@curseforge."
+				}
+			}
+		}
+	},
+	{
 		Version = "10.0.2.2",
 		Sections = {
 			{
