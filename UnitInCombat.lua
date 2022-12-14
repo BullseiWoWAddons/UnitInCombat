@@ -243,7 +243,6 @@ function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame, forceUpdate)
 	if not unitID then return end
 
 	local generalConfig = self.db.profile.GeneralSettings
-
 	if generalConfig.ShowBasedOnCreateType then
 		local creatureType = UnitCreatureType(unitID) --This creatureType is localized, we use LibBabbleCreatureType to get a english name for that
 		if creatureType then
