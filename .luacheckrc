@@ -282,6 +282,7 @@ globals = {
 	"UnitChannelInfo",
 	"UnitChannelInfo",
 	"UnitClass",
+	"UnitCreatureType",
 	"UnitDebuff",
 	"UnitDetailedThreatSituation",
 	"UnitExists",
