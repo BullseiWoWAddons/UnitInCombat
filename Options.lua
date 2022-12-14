@@ -6,10 +6,30 @@ local AceConfig = LibStub("AceConfig-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
 local LibIconSelector = LibStub("LibSpellIconSelector")
+local LibBabbleCreatureType = LibStub("LibBabble-CreatureType-3.0")
+local englischToLocalizedCreaturs = LibBabbleCreatureType:GetUnstrictLookupTable()
 
 
 local CTimerNewTicker = C_Timer.NewTicker
 
+local creatureTypeOptions = {
+	"Beast",
+	"Demon",
+	"Dragonkin",
+	"Elemental",
+	"Giant",
+	"Humanoid",
+	"Totem",
+	"Undead",
+	"Wild Pet"
+}
+local localizedCreatures = {}
+
+for i = 1, #creatureTypeOptions do
+	local englishCreatureType = creatureTypeOptions[i]
+	local localizedType = englischToLocalizedCreaturs[englishCreatureType]
+	localizedCreatures[englishCreatureType] = localizedType
+end
 
 local function copy(obj)
 	if type(obj) ~= 'table' then return obj end
@@ -244,9 +264,9 @@ function UnitInCombat:SetupOptions()
 									local optiontable = {} --hold a copy of the option table for the OnOkayButtonPressed otherweise the table will be empty
 									Mixin(optiontable, option)
 									LibIconSelector:Show(location.GeneralSettings.CombatIcon, function(spelldata)
-										
+
 										setOption(location.GeneralSettings, optiontable, spelldata.icon)
-										AceConfigRegistry:NotifyChange("UnitInCombat");
+										AceConfigRegistry:NotifyChange("UnitInCombat")
 									end)
 								end,
 								disabled = function() return not location.GeneralSettings.CombatIconEnabled end,
@@ -268,7 +288,7 @@ function UnitInCombat:SetupOptions()
 									local optiontable = {} --hold a copy of the option table for the OnOkayButtonPressed otherweise the table will be empty
 									Mixin(optiontable, option)
 									LibIconSelector:Show(location.GeneralSettings.OutOfCombatIcon, function(spelldata)
-										
+
 										setOption(location.GeneralSettings, optiontable, spelldata.icon)
 										AceConfigRegistry:NotifyChange("UnitInCombat");
 									end)
@@ -278,35 +298,29 @@ function UnitInCombat:SetupOptions()
 								order = 5,
 							},
 							Spacing3 = addVerticalSpacing(6),
-							ShowOnPlayers = {
+							ShowBasedOnCreateType = {
 								type = "toggle",
-								name = "Show on players",
-								width = "normal",
-								order = 7
+								name = "Show only for the following types:",
+								order = 7,
+								width = "full"
 							},
-							Spacin4 = addVerticalSpacing(8),
-							ShowOnCreatures = {
-								type = "toggle",
-								name = "Show on creatures",
-								width = "normal",
-								order = 9
+							ShowOnCreatureTypes = {
+								type = "multiselect",
+								name = "",
+								desc = "",
+								hidden = function() return not location.GeneralSettings.ShowBasedOnCreateType end,
+								get = function(option, key)
+									return location.GeneralSettings.ShowOnCreatureTypes[key]
+								end,
+								set = function(option, key, state) -- value = spellname
+									location.GeneralSettings.ShowOnCreatureTypes[key] = state
+									UnitInCombat:ApplyAllSettings()
+								end,
+								width = 'normal',
+								values = localizedCreatures,
+								order = 8
 							},
-							ShowOnTotems = {
-								type = "toggle",
-								name = "Show on totems",
-								desc = "This distinction is based on the NPC Id of the creature. The addon holds a database of NPC IDs for totems. If a totem is missing use this to get the NPC id of your targeted totem: /run print(select(6, strsplit('-', UnitGUID('target'))))",
-								width = "normal",
-								order = 10,
-								disabled = function() return not location.GeneralSettings.ShowOnCreatures end
-							},
-							Spacing5 = addVerticalSpacing(11),
-							ShowOnPets = {
-								type = "toggle",
-								name = "Show on pets",
-								width = "normal",
-								order = 12
-							},
-							Spacing6 = addVerticalSpacing(13),
+							Spacing6 = addVerticalSpacing(9),
 							Reset = {
 								type = "execute",
 								name = "Reset to defaults",
@@ -317,7 +331,7 @@ function UnitInCombat:SetupOptions()
 									AceConfigRegistry:NotifyChange("UnitInCombat");
 								end,
 								width = "full",
-								order = 13,
+								order = 10,
 							}
 						}
 					},

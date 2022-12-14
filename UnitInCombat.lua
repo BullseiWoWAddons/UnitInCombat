@@ -5,6 +5,10 @@ local AddonName, Data = ...
 local L = Data.L
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local LibChangelog = LibStub("LibChangelog")
+local LibBabbleCreatureType = LibStub("LibBabble-CreatureType-3.0")
+local creatureLocaleToEnglish = LibBabbleCreatureType:GetReverseLookupTable()
+
+
 
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitIsEnemy = UnitIsEnemy
@@ -238,38 +242,19 @@ function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame, forceUpdate)
 	local unitID = uic.unitID
 	if not unitID then return end
 
-	local unitGUID = UnitGUID(unitID)
-	if not unitGUID then return end
-	if not uic.unitGUID or uic.unitGUID ~= unitGUID then
-		forceUpdate = true
-	end
-
-	if forceUpdate then
-		local generalConfig = self.db.profile.GeneralSettings
-		local unitType, _, _, _, _, npcId, spawnUID = strsplit("-", unitGUID) --This is for creatures, but since we only care about the unitType, and handle later stuff (like npcID) only for creatures this is okay
-		if unitType == "Player" then
-			if not generalConfig.ShowOnPlayers then
-				return self:HideAllIconFrames(uic)
-			end
-		elseif unitType == "Creature" then
-			npcId = tonumber(npcId)
-			if not generalConfig.ShowOnCreatures then
-				--Check if its a totem
-				return self:HideAllIconFrames(uic)
-			end
-			if npcId and Data.Totems[npcId] then
-				--its a totem
-				if not generalConfig.ShowOnTotems then
+	local generalConfig = self.db.profile.GeneralSettings
+	local creatureType = UnitCreatureType(unitID) --This creatureType is localized, we use LibBabbleCreatureType to get a english name for that
+	if creatureType then
+		local englishCreatureType = creatureLocaleToEnglish[creatureType]
+		if englishCreatureType then
+			if generalConfig.ShowBasedOnCreateType then
+				if not generalConfig.ShowOnCreatureTypes[englishCreatureType] then
 					return self:HideAllIconFrames(uic)
 				end
 			end
-		elseif unitType == "Pet" then
-			if not generalConfig.ShowOnPets then
-				return self:HideAllIconFrames(uic)
-			end
 		end
-		uic.unitGUID = unitGUID
 	end
+
 
 
 	local moduleConfig = uic.moduleConfig

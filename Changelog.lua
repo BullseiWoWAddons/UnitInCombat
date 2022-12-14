@@ -2,6 +2,17 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "10.0.2.5",
+		Sections = {
+			{
+				Header = "New Feature",
+				Entries = {
+					"Completely changed the filtering based on unit type. Removed the filter by players, pets, etc. You can now filter by Creature type (Beast, Demon, Totem, Humanoid, etc). This makes the addon much more useful for rogues. Thanks to largedeltman@curseforge for the hint."
+				}
+			}
+		}
+	},
+	{
 		Version = "10.0.2.4",
 		Sections = {
 			{
