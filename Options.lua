@@ -297,7 +297,7 @@ function UnitInCombat:SetupOptions()
 								desc = "This distinction is based on the NPC Id of the creature. The addon holds a database of NPC IDs for totems. If a totem is missing use this to get the NPC id of your targeted totem: /run print(select(6, strsplit('-', UnitGUID('target'))))",
 								width = "normal",
 								order = 10,
-								disabled = not location.GeneralSettings.ShowOnCreatures
+								disabled = function() return not location.GeneralSettings.ShowOnCreatures end
 							},
 							Spacing5 = addVerticalSpacing(11),
 							ShowOnPets = {
