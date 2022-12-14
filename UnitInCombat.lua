@@ -243,11 +243,12 @@ function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame, forceUpdate)
 	if not unitID then return end
 
 	local generalConfig = self.db.profile.GeneralSettings
-	local creatureType = UnitCreatureType(unitID) --This creatureType is localized, we use LibBabbleCreatureType to get a english name for that
-	if creatureType then
-		local englishCreatureType = creatureLocaleToEnglish[creatureType]
-		if englishCreatureType then
-			if generalConfig.ShowBasedOnCreateType then
+
+	if generalConfig.ShowBasedOnCreateType then
+		local creatureType = UnitCreatureType(unitID) --This creatureType is localized, we use LibBabbleCreatureType to get a english name for that
+		if creatureType then
+			local englishCreatureType = creatureLocaleToEnglish[creatureType]
+			if englishCreatureType then
 				if not generalConfig.ShowOnCreatureTypes[englishCreatureType] then
 					return self:HideAllIconFrames(uic)
 				end
