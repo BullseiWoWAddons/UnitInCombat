@@ -239,6 +239,7 @@ function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame, forceUpdate)
 	if not unitID then return end
 
 	local unitGUID = UnitGUID(unitID)
+	if not unitGUID then return end
 	if not uic.unitGUID or uic.unitGUID ~= unitGUID then
 		forceUpdate = true
 	end
