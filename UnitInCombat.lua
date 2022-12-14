@@ -252,6 +252,7 @@ function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame, forceUpdate)
 				return self:HideAllIconFrames(uic)
 			end
 		elseif unitType == "Creature" then
+			npcId = tonumber(npcId)
 			if not generalConfig.ShowOnCreatures then
 				--Check if its a totem
 				return self:HideAllIconFrames(uic)
