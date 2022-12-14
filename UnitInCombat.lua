@@ -11,6 +11,7 @@ local creatureLocaleToEnglish = LibBabbleCreatureType:GetReverseLookupTable()
 
 
 local UnitAffectingCombat = UnitAffectingCombat
+local UnitCreatureType = UnitCreatureType
 local UnitIsEnemy = UnitIsEnemy
 
 local sentMessages = {}
