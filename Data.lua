@@ -1,6 +1,6 @@
 local AddonName, Data = ...
 
-Data.Totems = {
+Data.Totems = { --key =NPC ID, value = spellID of the totem (spellID is not used for now but maybe its useful in the future)
 	-- retail last check on 2022.12.14
 	[6112] 		 = 8512,	--Windfury Totem
 	[78001]     = 157153,	--Cloudburst Totem
