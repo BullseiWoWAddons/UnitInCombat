@@ -2,6 +2,23 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "10.0.2.4",
+		Sections = {
+			{
+				Header = "New Feature",
+				Entries = {
+					"Added an option to show/hide the icons on totems. This works based on a small database inside the Addon. If you are missing a totem please let me know."
+				}
+			},
+			{
+				Header = "Bugfixes",
+				Entries = {
+					"Fixed a bug regarding a non existing GUID reported by Luunii_@curseforge."
+				}
+			}
+		}
+	},
+	{
 		Version = "10.0.2.3",
 		Sections = {
 			{
