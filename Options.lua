@@ -300,7 +300,7 @@ function UnitInCombat:SetupOptions()
 							Spacing3 = addVerticalSpacing(6),
 							ShowBasedOnCreateType = {
 								type = "toggle",
-								name = "Show only for the following types:",
+								name = "Show only for the following creature types:",
 								order = 7,
 								width = "full"
 							},
