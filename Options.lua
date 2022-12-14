@@ -291,14 +291,22 @@ function UnitInCombat:SetupOptions()
 								width = "normal",
 								order = 9
 							},
-							Spacing5 = addVerticalSpacing(10),
+							ShowOnTotems = {
+								type = "toggle",
+								name = "Show on totems",
+								desc = "This distinction is based on the NPC Id of the creature. The addon holds a database of NPC IDs for totems.",
+								width = "normal",
+								order = 10,
+								disabled = not location.GeneralSettings.ShowOnCreatures
+							},
+							Spacing5 = addVerticalSpacing(11),
 							ShowOnPets = {
 								type = "toggle",
 								name = "Show on pets",
 								width = "normal",
-								order = 11
+								order = 12
 							},
-							Spacing6 = addVerticalSpacing(12),
+							Spacing6 = addVerticalSpacing(13),
 							Reset = {
 								type = "execute",
 								name = "Reset to defaults",

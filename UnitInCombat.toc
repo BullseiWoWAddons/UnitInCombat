@@ -16,6 +16,7 @@
 embeds.xml
 #@end-no-lib-strip@
 
+Data.lua
 UnitInCombat.lua
 Defaults.lua
 Changelog.lua

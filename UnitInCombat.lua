@@ -246,14 +246,21 @@ function UnitInCombat:ToggleFrameOnUnitUpdate(parentFrame, forceUpdate)
 
 	if forceUpdate then
 		local generalConfig = self.db.profile.GeneralSettings
-		local unitType, _, _, _, _, _, spawnUID = strsplit("-", unitGUID)
+		local unitType, _, _, _, _, npcId, spawnUID = strsplit("-", unitGUID) --This is for creatures, but since we only care about the unitType, and handle later stuff (like npcID) only for creatures this is okay
 		if unitType == "Player" then
 			if not generalConfig.ShowOnPlayers then
 				return self:HideAllIconFrames(uic)
 			end
 		elseif unitType == "Creature" then
 			if not generalConfig.ShowOnCreatures then
+				--Check if its a totem
 				return self:HideAllIconFrames(uic)
+			end
+			if npcId and Data.Totems[npcId] then
+				--its a totem
+				if not generalConfig.ShowOnTotems then
+					return self:HideAllIconFrames(uic)
+				end
 			end
 		elseif unitType == "Pet" then
 			if not generalConfig.ShowOnPets then
