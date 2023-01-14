@@ -7,7 +7,7 @@ local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
 local LibIconSelector = LibStub("LibSpellIconSelector")
 local LibBabbleCreatureType = LibStub("LibBabble-CreatureType-3.0")
-local englischToLocalizedCreaturs = LibBabbleCreatureType:GetUnstrictLookupTable()
+local englischToLocalizedCreatures = LibBabbleCreatureType:GetUnstrictLookupTable()
 
 
 local CTimerNewTicker = C_Timer.NewTicker
@@ -27,7 +27,7 @@ local localizedCreatures = {}
 
 for i = 1, #creatureTypeOptions do
 	local englishCreatureType = creatureTypeOptions[i]
-	local localizedType = englischToLocalizedCreaturs[englishCreatureType]
+	local localizedType = englischToLocalizedCreatures[englishCreatureType]
 	localizedCreatures[englishCreatureType] = localizedType
 end
 
