@@ -2,6 +2,23 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "10.0.2.6",
+		Sections = {
+			{
+				Header = "Changes",
+				Entries = {
+					"Added all available creature types to the options."
+				}
+			},
+			{
+				Header = "Bugfixes",
+				Entries = {
+					"Fixed an error reported by Luunii_@curseforge."
+				}
+			}
+		}
+	},
+	{
 		Version = "10.0.2.5",
 		Sections = {
 			{
