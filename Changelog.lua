@@ -2,7 +2,7 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
-		Version = "10.0.2.7",
+		Version = "10.0.2.8",
 		Sections = {
 			{
 				Header = "Changes",
