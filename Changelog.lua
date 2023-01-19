@@ -2,6 +2,17 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "10.0.2.7",
+		Sections = {
+			{
+				Header = "Changes",
+				Entries = {
+					"Reduce the amount of creature types in the settings."
+				}
+			},
+		}
+	},
+	{
 		Version = "10.0.2.6",
 		Sections = {
 			{
