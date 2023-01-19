@@ -11,52 +11,24 @@ local localizedToEnglishCreatures = LibBabbleCreatureType:GetReverseLookupTable(
 
 
 
-
-local sortedLocalizedCreatureTypes
-
-local function buildSortedLocalizedCreatureTypes()
-	sortedLocalizedCreatureTypes = {}
-	for k,v in pairs(localizedToEnglishCreatures) do
-		table.insert(sortedLocalizedCreatureTypes, k)
-	end
-
-	table.sort(sortedLocalizedCreatureTypes, function(a, b) return a < b end)
-	return sortedLocalizedCreatureTypes
-end
-
-
-
-local function getCreatureTypeByKey(key)
-	sortedLocalizedCreatureTypes = sortedLocalizedCreatureTypes or buildSortedLocalizedCreatureTypes()
-	local localizedCreatureType = sortedLocalizedCreatureTypes[key]
-	local englischCreatureType = localizedToEnglishCreatures[localizedCreatureType]
-
-	return englischCreatureType, localizedCreatureType
-end
-
-local CTimerNewTicker = C_Timer.NewTicker
-
---[[ local creatureTypeOptions = {
+local creatureTypes = {
+	"Aberration",
 	"Beast",
+	"Critter", 
 	"Demon",
 	"Dragonkin",
 	"Elemental",
+	"Gas Cloud",
 	"Giant",
-	"Humanoid",
+	"Humanoid" ,
+	"Mechanical",
 	"Totem",
 	"Undead",
 	"Wild Pet"
 }
-local localizedCreatures = {}
 
-for englischCreatureType, localizedCreatureType 
 
-for i = 1, #creatureTypeOptions do
-	local englishCreatureType = creatureTypeOptions[i]
-	local localizedType = englischToLocalizedCreatures[englishCreatureType]
-	localizedCreatures[englishCreatureType] = localizedType
-end ]]
-
+local CTimerNewTicker = C_Timer.NewTicker
 
 
 local function copy(obj)
@@ -338,16 +310,26 @@ function UnitInCombat:SetupOptions()
 								desc = "",
 								hidden = function() return not location.GeneralSettings.ShowBasedOnCreateType end,
 								get = function(option, key)  --key is the 
-									local englischCreatureType =  getCreatureTypeByKey(key)
+									local englischCreatureType =  localizedToEnglishCreatures[key]
 									return location.GeneralSettings.ShowOnCreatureTypes[englischCreatureType]
 								end,
-								set = function(option, key, state) -- key = key of sortedLocalizedCreatureTypes
-									local englischCreatureType =  getCreatureTypeByKey(key)
+								set = function(option, key, state) -- key = localizedcreatureType
+									local englischCreatureType =  localizedToEnglishCreatures[key]
 									location.GeneralSettings.ShowOnCreatureTypes[englischCreatureType] = state
 									UnitInCombat:ApplyAllSettings()
 								end,
 								width = 'normal',
-								values = sortedLocalizedCreatureTypes or buildSortedLocalizedCreatureTypes(),
+								values = function()
+									local localizedTyes = {}
+									for i = 1, #creatureTypes do
+										local englishType = creatureTypes[i]
+										local localizedType = LibBabbleCreatureType:GetUnstrictLookupTable()[englishType]
+										if localizedType then
+											localizedTyes[localizedType] = localizedType
+										end
+									end
+									return localizedTyes
+								end,
 								order = 8
 							},
 							Spacing6 = addVerticalSpacing(9),

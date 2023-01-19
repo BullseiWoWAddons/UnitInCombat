@@ -1,0 +1,19 @@
+{
+    "Lua.diagnostics.globals": [
+        "ARENA",
+        "RAID_FRAMES_LABEL",
+        "TargetFrameMixin",
+        "FOCUS",
+        "FocusFrame",
+        "UNIT_NAMEPLATES",
+        "SlashCmdList",
+        "VIDEO_OPTIONS_ENABLED",
+        "PARTY_MEMBERS",
+        "PLAYER",
+        "PlayerFrame",
+        "TARGET",
+        "TargetFrame",
+        "SHOW_TARGET_OF_TARGET_TEXT",
+        "TargetFrameToT"
+    ]
+}
