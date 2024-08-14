@@ -104,6 +104,7 @@ globals = {
 	"BNIsSelf",
 	"BNSendWhisper",
 	"BossBanner",
+	"C_AddOns",
 	"C_BattleNet",
 	"C_ChatInfo",
 	"C_Covenants",
