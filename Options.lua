@@ -1,5 +1,6 @@
 local AddonName, Data = ...
-local GetAddOnMetadata = GetAddOnMetadata
+local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata
+
 
 local L = Data.L
 local AceConfig = LibStub("AceConfig-3.0")
