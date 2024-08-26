@@ -2,6 +2,17 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "11.0.2.0",
+		Sections = {
+			{
+				Header = "Changes",
+				Entries = {
+					"Updated LibSpellIconSelector"
+				}
+			},
+		}
+	},
+	{
 		Version = "10.0.2.8",
 		Sections = {
 			{
