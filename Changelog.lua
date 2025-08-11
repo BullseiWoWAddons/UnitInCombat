@@ -2,6 +2,18 @@ local AddonName, Data = ...
 
 Data.changelog = {
 	{
+		Version = "11.2.0.0",
+		Sections = {
+			{
+				Header = "Changes",
+				Entries = {
+					"Update TOC for 11.2.0",
+					'Fixed labling of the icon selector for in combat icon'
+				}
+			},
+		}
+	},
+	{
 		Version = "11.0.5.0",
 		Sections = {
 			{

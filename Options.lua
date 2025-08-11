@@ -259,7 +259,7 @@ function UnitInCombat:SetupOptions()
 							},
 							CombatIcon = {
 								type = "execute",
-								name = "ouf of combat icon",
+								name = "combat icon",
 								image = function() return location.GeneralSettings.CombatIcon end,
 								func = function(option)
 									local optiontable = {} --hold a copy of the option table for the OnOkayButtonPressed otherweise the table will be empty
